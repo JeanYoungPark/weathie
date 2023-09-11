@@ -1,0 +1,132 @@
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+body {
+    * {font-family: Pretendard,'Noto Sans KR', sans-serif;}
+    h1, h2, h3, h4, h5, h6 {font-weight: normal; margin: 0;}
+    p {margin: 0;}
+    ul {list-style: none; margin: 0; padding: 0;}
+}
+
+#body {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    background: linear-gradient(0deg, #06F -0.74%, rgba(0, 57, 203, 0.00) 36.21%), linear-gradient(0deg, #19C2F6 0%, #19C2F6 100%), linear-gradient(0deg, #F4FAFF 0%, #ACE5FF 50%, #67D2FF 100%);
+}
+
+.header {
+    display: flex;
+    padding: 1.5vh 4vw;
+    justify-content: space-between;
+    align-items: center;
+
+    .menu {
+        cursor: pointer;
+    }
+
+    .date {
+        font-size: 1.125em;
+    }
+
+    .reload {
+        cursor: pointer;
+    }
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+
+    .cont {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .place {
+            font-weight: 400;
+            font-size: 2em;
+            padding-top: 0.77vh;
+            margin-bottom: 8px;
+        }
+    
+        .bookmark {
+            margin-left: 8px;
+        }
+    
+        .weather {
+            margin-right: 8px;
+        }
+
+        .degree {
+            font-weight: 300;
+            font-size: 5.625em;
+            padding-left: 1vw;
+        }
+    
+        .text {
+            font-size: 1.5em;
+        }
+    
+        .degrees {
+            display: flex;
+            margin: 1.17vh 0;
+            font-size: 1.125em;
+    
+            span:first-child {
+                margin-right: 12px;
+            }
+        }
+
+        .info {
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            padding: 0 4vw;
+            box-sizing: border-box;
+    
+            li {
+                display:flex;
+                flex-direction: column;
+                width: calc(50% - 4px);
+                padding: 12px;
+                margin-bottom: 8px;
+                box-sizing: border-box;
+                border-radius: 16px;
+                background: rgba(255, 255, 255, 0.25);
+                backdrop-filter: blur(7.5px);
+    
+                span {
+                    display: flex;
+                    align-items: center;
+                    font-weight: 500;
+                    font-size: 0.875em;
+    
+                    .kindOfWeather {
+                        padding-right: 3px;
+                    }
+                }
+    
+                div {
+                    font-weight: 500;
+                    font-size: 1.375em;
+                    text-align: right;
+                }
+            }
+    
+            li:nth-child(odd){
+                margin-right: 8px;
+            }
+        }
+    }
+
+    .character {
+        padding: 3.2vh 0;
+    }
+    
+}
