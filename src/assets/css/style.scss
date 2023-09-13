@@ -5,6 +5,9 @@ body {
     h1, h2, h3, h4, h5, h6 {font-weight: normal; margin: 0;}
     p {margin: 0;}
     ul {list-style: none; margin: 0; padding: 0;}
+    input {
+        border: 0;
+    }
 }
 
 #body {
@@ -13,8 +16,12 @@ body {
     flex-direction: column;
     width: 100%;
     height: 100%;
-    color: #fff;
-    background: linear-gradient(0deg, #06F -0.74%, rgba(0, 57, 203, 0.00) 36.21%), linear-gradient(0deg, #19C2F6 0%, #19C2F6 100%), linear-gradient(0deg, #F4FAFF 0%, #ACE5FF 50%, #67D2FF 100%);
+    color:#333;
+
+    &.blue {
+        background: linear-gradient(0deg, #06F -0.74%, rgba(0, 57, 203, 0.00) 36.21%), linear-gradient(0deg, #19C2F6 0%, #19C2F6 100%), linear-gradient(0deg, #F4FAFF 0%, #ACE5FF 50%, #67D2FF 100%);
+        color:#fff;
+    }
 }
 
 .header {
@@ -22,16 +29,21 @@ body {
     padding: 1.5vh 4vw;
     justify-content: space-between;
     align-items: center;
+    font-size: 1.125em;
 
     .menu {
         cursor: pointer;
     }
 
-    .date {
+    .title {
         font-size: 1.125em;
     }
 
     .reload {
+        cursor: pointer;
+    }
+
+    .back {
         cursor: pointer;
     }
 }
@@ -42,6 +54,7 @@ body {
     align-items: center;
     justify-content: space-between;
     height: 100%;
+    padding: 0 4vw;
 
     .cont {
         display: flex;
@@ -87,7 +100,6 @@ body {
             display: flex;
             flex-wrap: wrap;
             width: 100%;
-            padding: 0 4vw;
             box-sizing: border-box;
     
             li {
@@ -128,5 +140,35 @@ body {
     .character {
         padding: 3.2vh 0;
     }
-    
+
+    .favorite {
+        padding: 2.3vh 1.18vw;
+    }
+}
+
+.searchBar {
+    width: 100%;
+    position: relative;
+
+    input {
+        display:block;
+        width: 100%;
+        padding: 1.5vh 1.8vw;
+        border-radius: 12px;
+        background: #eff4f6;
+        font-size: 0.875em;
+        font-weight: 500;
+        box-sizing: border-box;
+    }
+
+    .searchIcon {
+        display:block;
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        top: calc(50% - 10px);
+        right: 1.8vw;
+        background-image: url("../images/searchIcon.png");
+        cursor: pointer;
+    } 
 }
