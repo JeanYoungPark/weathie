@@ -5,15 +5,27 @@ import bookmarkOff from "../assets/images/bookmarkOff.png";
 import weatherIcon from "../assets/images/weatherIcon.png";
 import character from "../assets/images/character.png";
 import sampleIcon from "../assets/images/sampleIcon.png";
+import { useNavigate } from "react-router";
+import { useCallback } from "react";
 
 
 export const Weather = () => {
+    const navigate = useNavigate();
+
+    const onClickMenu = useCallback(() => {
+        navigate("/search");
+    }, [navigate]);
+
+    const onClickReload = useCallback(() => {
+        window.location.reload();
+    }, []);
+
     return (
-        <div id="body">
+        <div id="body" className="blue">
             <div className="header">
-                <img className="menu" src={menu} alt="menu"/>
-                <p className="date">7월 27일 목요일</p>
-                <img className="reload" src={reload} alt="reload"/>
+                <img className="menu" src={menu} alt="menu" onClick={onClickMenu} />
+                <p className="title">7월 27일 목요일</p>
+                <img className="reload" src={reload} alt="reload" onClick={onClickReload} />
             </div>
             <div className="wrapper">
                 <div className="cont">
