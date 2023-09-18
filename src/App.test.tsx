@@ -1,21 +1,14 @@
 import { render } from '@testing-library/react';
-import App from './App';
-import { MemoryRouter } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Weather } from 'pages/Weather';
+import { Search } from 'pages/Search';
 
 describe('App', () => {
-    test("render /", () => {
-        render(
-            <MemoryRouter initialEntries={['/']}>
-                <App />
-            </MemoryRouter>
-        );
+    it("render /", () => {
+        render(<Weather />, { wrapper: Router });
     });
     
-    test('render /search', () => {
-        render(
-            <MemoryRouter initialEntries={['/search']}>
-                <App />
-            </MemoryRouter>
-        );    
+    it('render /search', () => {
+        render(<Search />, { wrapper: Router });    
     });
 });
