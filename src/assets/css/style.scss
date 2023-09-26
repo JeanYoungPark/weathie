@@ -49,13 +49,15 @@ body {
 }
 
 .wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    height: 100%;
     padding: 0 4vw;
 
+    &#weather {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        height: 100%;
+    }
     .cont {
         display: flex;
         flex-direction: column;
@@ -171,4 +173,65 @@ body {
         background-image: url("../images/searchIcon.png");
         cursor: pointer;
     } 
+}
+
+.favoriteList {
+    display: flex;
+    width: 100%;
+    padding: 1.8vh 5.2vw;
+    background: skyblue;
+    margin-top: 1.2vh;
+    box-sizing: border-box;
+    border-radius: 16px;
+    color: #fff;
+
+    > div {
+        display: flex;
+        flex-direction: column;
+        width: 50%;
+    }
+
+    .left {
+        .location {
+            font-size: 1.5em;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .name {
+            font-size: 0.875em;
+            margin-bottom: 10px;
+        }
+
+        .img {
+            width: 50%;
+        }
+    }
+    
+    .right {
+        align-items: flex-end;
+        justify-content: space-between;
+
+        .degree {
+            font-size: 3.25em;
+        }
+
+        .kindOfWeather {
+            text-align: right;
+            font-size: 0.875em;
+            margin-bottom: 5px;
+
+            span {
+                padding-left: 3px;
+            }
+        }
+
+        .degrees {
+            font-size: 0.875em;
+
+            span {
+                padding-left: 3px;
+            }
+        }
+    }
 }

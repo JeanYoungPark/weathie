@@ -63,7 +63,7 @@ export const Weather = () => {
                 <p className="title">7월 27일 목요일</p>
                 <img className="reload" src={reload} alt="reload" onClick={onClickReload} />
             </div>
-            <div className="wrapper">
+            <div id="weather" className="wrapper">
                 <div className="cont">
                     <h1 className="place">서울특별시<img className="bookmark" src={bookmarkOff} alt="bookmark off" /></h1>
                     <p><img className="weather" src={weatherIcon} alt="weather icon" />맑음</p>

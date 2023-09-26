@@ -52,12 +52,14 @@ body input {
 }
 
 .wrapper {
+  padding: 0 4vw;
+}
+.wrapper#weather {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   height: 100%;
-  padding: 0 4vw;
 }
 .wrapper .cont {
   display: flex;
@@ -157,4 +159,53 @@ body input {
   right: 1.8vw;
   background-image: url("../images/searchIcon.png");
   cursor: pointer;
+}
+
+.favoriteList {
+  display: flex;
+  width: 100%;
+  padding: 1.8vh 5.2vw;
+  background: skyblue;
+  margin-top: 1.2vh;
+  box-sizing: border-box;
+  border-radius: 16px;
+  color: #fff;
+}
+.favoriteList > div {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+}
+.favoriteList .left .location {
+  font-size: 1.5em;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+.favoriteList .left .name {
+  font-size: 0.875em;
+  margin-bottom: 10px;
+}
+.favoriteList .left .img {
+  width: 50%;
+}
+.favoriteList .right {
+  align-items: flex-end;
+  justify-content: space-between;
+}
+.favoriteList .right .degree {
+  font-size: 3.25em;
+}
+.favoriteList .right .kindOfWeather {
+  text-align: right;
+  font-size: 0.875em;
+  margin-bottom: 5px;
+}
+.favoriteList .right .kindOfWeather span {
+  padding-left: 3px;
+}
+.favoriteList .right .degrees {
+  font-size: 0.875em;
+}
+.favoriteList .right .degrees span {
+  padding-left: 3px;
 }
