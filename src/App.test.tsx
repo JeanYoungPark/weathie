@@ -1,9 +1,14 @@
-import React from 'react';
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { render } from '@testing-library/react';
+import { BrowserRouter as Router } from 'react-router-dom';
+import { Weather } from 'pages/Weather';
+import { Search } from 'pages/Search';
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+describe('App', () => {
+    it("render /", () => {
+        render(<Weather />, { wrapper: Router });
+    });
+    
+    it('render /search', () => {
+        render(<Search />, { wrapper: Router });    
+    });
 });
