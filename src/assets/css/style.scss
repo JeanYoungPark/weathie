@@ -26,7 +26,7 @@ body {
 
 .header {
     display: flex;
-    padding: 1.5vh 4vw;
+    padding: 3vh 4.5vw;
     justify-content: space-between;
     align-items: center;
     font-size: 1.125em;
@@ -36,7 +36,8 @@ body {
     }
 
     .title {
-        font-size: 1.125em;
+        font-size: 1em;
+        font-weight: 300;
     }
 
     .reload {
@@ -49,7 +50,7 @@ body {
 }
 
 .wrapper {
-    padding: 0 4vw;
+    padding: 0 4.5vw;
 
     &#weather {
         display: flex;
@@ -64,10 +65,11 @@ body {
         align-items: center;
 
         .place {
-            font-weight: 400;
+            display: flex;
+            align-items: center;
+            font-weight: 300;
             font-size: 2em;
-            padding-top: 0.77vh;
-            margin-bottom: 8px;
+            margin-bottom: 15px;
         }
     
         .bookmark {
@@ -75,7 +77,12 @@ body {
         }
     
         .weather {
-            margin-right: 8px;
+            font-size: 1.2em;
+            font-weight: 300;
+
+            img {
+                margin-right: 8px;
+            }
         }
 
         .degree {
@@ -86,12 +93,14 @@ body {
     
         .text {
             font-size: 1.5em;
+            font-weight: 300;
         }
     
         .degrees {
             display: flex;
-            margin: 1.17vh 0;
+            margin: 1.2vh 0 3.3vh 0;
             font-size: 1.125em;
+            font-weight: 300;
     
             span:first-child {
                 margin-right: 12px;
@@ -102,6 +111,7 @@ body {
             display: flex;
             flex-wrap: wrap;
             width: 100%;
+            padding-bottom: 20px;
             box-sizing: border-box;
     
             li {
@@ -118,7 +128,7 @@ body {
                 span {
                     display: flex;
                     align-items: center;
-                    font-weight: 500;
+                    font-weight: 300;
                     font-size: 0.875em;
     
                     .kindOfWeather {
@@ -127,9 +137,10 @@ body {
                 }
     
                 div {
-                    font-weight: 500;
+                    font-weight: 300;
                     font-size: 1.375em;
                     text-align: right;
+                    padding-top: 10px;
                 }
             }
     
@@ -178,7 +189,7 @@ body {
 .favoriteList {
     display: flex;
     width: 100%;
-    padding: 1.8vh 5.2vw;
+    padding: 2.5vh 6vw;
     background: skyblue;
     margin-top: 1.2vh;
     box-sizing: border-box;
@@ -194,13 +205,14 @@ body {
     .left {
         .location {
             font-size: 1.5em;
-            font-weight: 700;
+            font-weight: 500;
             margin-bottom: 5px;
         }
 
         .name {
             font-size: 0.875em;
-            margin-bottom: 10px;
+            font-weight: 300;
+            margin-bottom: 30px;
         }
 
         .img {
@@ -219,7 +231,8 @@ body {
         .kindOfWeather {
             text-align: right;
             font-size: 0.875em;
-            margin-bottom: 5px;
+            font-weight: 300;
+            margin-bottom: 10px;
 
             span {
                 padding-left: 3px;
@@ -228,9 +241,10 @@ body {
 
         .degrees {
             font-size: 0.875em;
+            font-weight: 300;
 
             span {
-                padding-left: 3px;
+                padding-left: 5px;
             }
         }
     }

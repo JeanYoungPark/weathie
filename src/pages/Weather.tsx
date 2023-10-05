@@ -66,7 +66,7 @@ export const Weather = () => {
             <div id="weather" className="wrapper">
                 <div className="cont">
                     <h1 className="place">서울특별시<img className="bookmark" src={bookmarkOff} alt="bookmark off" /></h1>
-                    <p><img className="weather" src={weatherIcon} alt="weather icon" />맑음</p>
+                    <p className="weather"><img src={weatherIcon} alt="weather icon" />맑음</p>
                 </div>
                 <img className="character" src={character} alt="character"/>
                 <div className="cont">
