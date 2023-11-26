@@ -7,24 +7,36 @@ import character from "../assets/images/character.png";
 import sampleIcon from "../assets/images/sampleIcon.png";
 import { useNavigate } from "react-router";
 import { useCallback, useEffect, useState } from "react";
+import axios, { AxiosResponse } from "axios";
 
 interface locationType {
     loaded: boolean;
-    coordinates?: {lat: number; lng: number};
+    coordinates?: {latitude: number; longitude: number};
     error?: {code: number; message: string};
+}
+// 지역
+// 풍속
+// 강수량
+// 미세먼지
+// 설명
+interface tempType {
+    now: number; //현재온도
+    max: number; // 최고 온도
+    min: number; // 최저 온도
 }
 
 export const Weather = () => {
     const navigate = useNavigate();
+    const [temp, setTemp] = useState<tempType>();
     const [location, setLocation] = useState<locationType>({
         loaded: false,
-        coordinates: {lat: 0, lng: 0}
+        coordinates: {latitude: 0, longitude: 0}
     });
 
     const onSuccess = useCallback((location: {coords: {latitude: number; longitude: number;}}) => {
         setLocation({
             loaded: true,
-            coordinates: {lat: location.coords.latitude, lng: location.coords.longitude}
+            coordinates: {latitude: location.coords.latitude, longitude: location.coords.longitude}
         });
     }, []);
 
@@ -43,6 +55,28 @@ export const Weather = () => {
         window.location.reload();
     }, []);
 
+    const handleApi = useCallback(async () => {
+        const response = await axios.post("http://localhost:8080/curr-weather", location.coordinates);
+        const data = response.data;
+
+        switch(data?.id){
+            case 500:
+                // 비
+                break;
+            case 600:
+                // 눈
+                break;
+            case 800:
+                // 맑음
+                break;
+            case 801:
+                // 구름
+                break;
+        }
+          
+        console.log(data);
+    }, [setTemp]);
+
     useEffect(() => {
         if(!("geolocation" in navigator)){
             onError({
@@ -53,8 +87,8 @@ export const Weather = () => {
 
         navigator.geolocation.getCurrentPosition(onSuccess, onError);
 
-        // api 전송
-    }, []);
+        handleApi();
+    }, [handleApi, onError, onSuccess]);
 
     return (
         <div id="body" className="blue">
@@ -82,16 +116,16 @@ export const Weather = () => {
                             <div>20km/h</div>
                         </li>
                         <li>
-                            <span><img className="kindOfWeather" src={sampleIcon} alt="샘플 이미지" />풍속</span>
-                            <div>20km/h</div>
+                            <span><img className="kindOfWeather" src={sampleIcon} alt="샘플 이미지" />강수량</span>
+                            <div>0mm/h</div>
                         </li>
                         <li>
-                            <span><img className="kindOfWeather" src={sampleIcon} alt="샘플 이미지" />풍속</span>
-                            <div>20km/h</div>
+                            <span><img className="kindOfWeather" src={sampleIcon} alt="샘플 이미지" />미세먼지</span>
+                            <div>보통</div>
                         </li>
                         <li>
-                            <span><img className="kindOfWeather" src={sampleIcon} alt="샘플 이미지" />풍속</span>
-                            <div>20km/h</div>
+                            <span><img className="kindOfWeather" src={sampleIcon} alt="샘플 이미지" />체감온도</span>
+                            <div>40&deg;</div>
                         </li>
                     </ul>
                 </div>
