@@ -3,31 +3,51 @@ import menu from "../assets/images/menu.png";
 import reload from "../assets/images/reload.png";
 import bookmarkOff from "../assets/images/bookmarkOff.png";
 import weatherIcon from "../assets/images/weatherIcon.png";
-import character from "../assets/images/character.png";
 import sampleIcon from "../assets/images/sampleIcon.png";
 import { useNavigate } from "react-router";
 import { useCallback, useEffect, useState } from "react";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
+import sunnyCloudy5dg from 'assets/images/cahracters/sunny_cloudy_5dg.png'
+import snowy5dg from 'assets/images/cahracters/snowy_5dg.png'
+import rainy5dg from 'assets/images/cahracters/rainy_5dg.png'
+import sunnyCloudy10dg from 'assets/images/cahracters/sunny_cloudy_10dg.png'
+import snowy10dg from 'assets/images/cahracters/snowy_10dg.png'
+import rainy10dg from 'assets/images/cahracters/rainy_10dg.png'
+import sunnyCloudy22dg from 'assets/images/cahracters/sunny_cloudy_22dg.png'
+import rainy22dg from 'assets/images/cahracters/rainy_22dg.png'
+import sunnyCloudy26dg from 'assets/images/cahracters/sunny_cloudy_26dg.png'
+import rainy26dg from 'assets/images/cahracters/rainy_26dg.png'
+import sunny27dg from 'assets/images/cahracters/sunny_27dg.png'
+import cloudy27dg from 'assets/images/cahracters/cloudy_27dg.png'
+import rainy27dg from 'assets/images/cahracters/rainy_27dg.png'
 
 interface locationType {
     loaded: boolean;
     coordinates?: {latitude: number; longitude: number};
     error?: {code: number; message: string};
 }
-// 지역
-// 풍속
-// 강수량
-// 미세먼지
-// 설명
+
 interface tempType {
     now: number; //현재온도
     max: number; // 최고 온도
     min: number; // 최저 온도
+    feel: number; // 체감 온도
+}
+
+interface info {
+    place: string,
+    wind: string,
+    rain: string,
+    dust: string
+    des: string
 }
 
 export const Weather = () => {
     const navigate = useNavigate();
     const [temp, setTemp] = useState<tempType>();
+    const [info, setInfo] = useState<info>();
+    const [icon, setIcon] = useState<string>();
+    const [character, setCharacter] = useState<string>(sunnyCloudy5dg);
     const [location, setLocation] = useState<locationType>({
         loaded: false,
         coordinates: {latitude: 0, longitude: 0}
@@ -59,23 +79,97 @@ export const Weather = () => {
         const response = await axios.post("http://localhost:8080/curr-weather", location.coordinates);
         const data = response.data;
 
-        switch(data?.id){
-            case 500:
-                // 비
-                break;
-            case 600:
-                // 눈
-                break;
-            case 800:
-                // 맑음
-                break;
-            case 801:
-                // 구름
-                break;
+        if(data){
+            if(data?.main){
+                // 기온 세팅
+                setTemp({now: data?.main.temp, max: data?.main.temp_max, min: data?.main.temp_min, feel: data?.main.feels_like});
+            }
+
+            if(data?.wind){
+                // 지역
+                // 풍속
+                // 강수량
+                // 미세먼지
+                // 설명
+                setInfo({place:'', wind:data?.wind.speed, rain:'', dust: '', des:data.weather.description});
+            }
+
+            if(data?.main.temp < 5) {
+                switch(data?.id){
+                    case 500:
+                        // 비 아이콘, 캐릭터 세팅
+                        setCharacter(rainy5dg);
+                        break;
+                    case 600:
+                        // 눈
+                        setCharacter(snowy5dg);
+                        break;
+                    case 800:
+                    case 801:
+                        // 맑음, 구름
+                        setCharacter(sunnyCloudy5dg);
+                        break;
+                }
+            }else if(data?.main.temp <= 5 && data?.main.temp < 10){
+                switch(data?.id){
+                    case 500:
+                        // 비 아이콘, 캐릭터 세팅
+                        setCharacter(rainy10dg);
+                        break;
+                    case 600:
+                        // 눈
+                        setCharacter(snowy10dg);
+                        break;
+                    case 800:
+                    case 801:
+                        // 맑음, 구름
+                        setCharacter(sunnyCloudy10dg);
+                        break;
+                }
+            }else if(data?.main.temp <= 10 && data?.main.temp < 22){
+                switch(data?.id){
+                    case 500:
+                        // 비 아이콘, 캐릭터 세팅
+                        setCharacter(rainy22dg);
+                        break;
+                    case 800:
+                    case 801:
+                        // 맑음, 구름
+                        setCharacter(sunnyCloudy22dg);
+                        break;
+                }
+            }else if(data?.main.temp <= 22 && data?.main.temp < 26){
+                switch(data?.id){
+                    case 500:
+                        // 비 아이콘, 캐릭터 세팅
+                        setCharacter(rainy26dg);
+                        break;
+                    case 800:
+                    case 801:
+                        // 맑음, 구름
+                        setCharacter(sunnyCloudy26dg);
+                        break;
+                }
+            }else{
+                switch(data?.id){
+                    case 500:
+                        // 비 아이콘, 캐릭터 세팅
+                        setCharacter(rainy27dg);
+                        break;
+                    case 800:
+                        // 맑음, 구름
+                        setCharacter(sunny27dg);
+                        break;
+                    case 801:
+                        // 맑음, 구름
+                        setCharacter(cloudy27dg);
+                        break;
+                }
+            }
         }
           
         console.log(data);
-    }, [setTemp]);
+    }, []);
 
     useEffect(() => {
         if(!("geolocation" in navigator)){
