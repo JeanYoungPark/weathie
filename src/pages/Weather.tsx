@@ -2,7 +2,6 @@ import "../assets/css/style.css";
 import menu from "../assets/images/menu.png";
 import reload from "../assets/images/reload.png";
 import bookmarkOff from "../assets/images/bookmarkOff.png";
-import weatherIcon from "../assets/images/weatherIcon.png";
 import sampleIcon from "../assets/images/sampleIcon.png";
 import { useNavigate } from "react-router";
 import { useCallback, useEffect, useState } from "react";
@@ -20,6 +19,11 @@ import rainy26dg from 'assets/images/cahracters/rainy_26dg.png'
 import sunny27dg from 'assets/images/cahracters/sunny_27dg.png'
 import cloudy27dg from 'assets/images/cahracters/cloudy_27dg.png'
 import rainy27dg from 'assets/images/cahracters/rainy_27dg.png'
+import sunnyIcon from 'assets/images/weatherIcon/sunnyIcon.png'
+import cloudyIcon from 'assets/images/weatherIcon/cloudyIcon.png'
+import rainyIcon from 'assets/images/weatherIcon/rainyIcon.png'
+import snowyIcon from 'assets/images/weatherIcon/snowyIcon.png'
+
 
 interface locationType {
     loaded: boolean;
@@ -49,6 +53,7 @@ export const Weather = () => {
     const [temp, setTemp] = useState<tempType>();
     const [info, setInfo] = useState<info>();
     const [icon, setIcon] = useState<string>();
+    const [bg, setBg] = useState<string>();
     const [character, setCharacter] = useState<string>(sunnyCloudy5dg);
     const [location, setLocation] = useState<locationType>();
     
@@ -69,74 +74,80 @@ export const Weather = () => {
                 setTemp({now: data?.temp, max: data?.temp_max, min: data?.temp_min, feel: data?.feels_like});
                 setInfo({place:data?.name, wind:data?.speed, rain:data?.rain_1h, dust: '', des:data?.description});
     
+                switch(data?.id){
+                    case 500:
+                        setIcon(rainyIcon);
+                        setBg('rainy');
+                        break;
+                    case 600:
+                        setIcon(snowyIcon);
+                        setBg('snowy');
+                        break;
+                    case 800:
+                        setIcon(sunnyIcon);
+                        setBg('sunny');
+                        break;
+                    case 801:
+                        setIcon(cloudyIcon);
+                        setBg('cloudy');
+                        break;
+                }
+
                 if(data?.temp < 5) {
                     switch(data?.id){
                         case 500:
-                            // 비 아이콘, 캐릭터 세팅
                             setCharacter(rainy5dg);
                             break;
                         case 600:
-                            // 눈
                             setCharacter(snowy5dg);
                             break;
                         case 800:
                         case 801:
-                            // 맑음, 구름
                             setCharacter(sunnyCloudy5dg);
                             break;
                     }
                 }else if(data?.temp <= 5 && data?.temp < 10){
                     switch(data?.id){
                         case 500:
-                            // 비 아이콘, 캐릭터 세팅
                             setCharacter(rainy10dg);
                             break;
                         case 600:
-                            // 눈
                             setCharacter(snowy10dg);
                             break;
                         case 800:
                         case 801:
-                            // 맑음, 구름
                             setCharacter(sunnyCloudy10dg);
                             break;
                     }
                 }else if(data?.temp <= 10 && data?.temp < 22){
                     switch(data?.id){
                         case 500:
-                            // 비 아이콘, 캐릭터 세팅
                             setCharacter(rainy22dg);
                             break;
                         case 800:
                         case 801:
-                            // 맑음, 구름
                             setCharacter(sunnyCloudy22dg);
                             break;
                     }
                 }else if(data?.temp <= 22 && data?.temp < 26){
                     switch(data?.id){
                         case 500:
-                            // 비 아이콘, 캐릭터 세팅
                             setCharacter(rainy26dg);
                             break;
                         case 800:
                         case 801:
-                            // 맑음, 구름
                             setCharacter(sunnyCloudy26dg);
                             break;
                     }
                 }else{
                     switch(data?.id){
                         case 500:
-                            // 비 아이콘, 캐릭터 세팅
                             setCharacter(rainy27dg);
                             break;
                         case 800:
-                            // 맑음, 구름
                             setCharacter(sunny27dg);
                             break;
                         case 801:
-                            // 맑음, 구름
                             setCharacter(cloudy27dg);
                             break;
                     }
@@ -185,16 +196,16 @@ export const Weather = () => {
     }, [onError, onSuccess, handleApi]);
 
     return (
-        <div id="body" className="blue">
+        <div id="body" className={bg}>
             <div className="header">
                 <img className="menu" src={menu} alt="menu" onClick={onClickMenu} />
-                <p className="title">{date?.getMonth()}월 {date?.getDate()}일 {date?.getDay()}요일</p>
+                <p className="title">{date?.getMonth()}월 {date?.getDate()}일 {week[date?.getDay() ?? 0]}요일</p>
                 <img className="reload" src={reload} alt="reload" onClick={onClickReload} />
             </div>
             <div id="weather" className="wrapper">
                 <div className="cont">
                     <h1 className="place">{info?.place}<img className="bookmark" src={bookmarkOff} alt="bookmark off" /></h1>
-                    <p className="weather"><img src={weatherIcon} alt="weather icon" />{info?.des}</p>
+                    <p className="weather"><img src={icon} alt="weather icon" />{info?.des}</p>
                 </div>
                 <img className="character" src={character} alt="character"/>
                 <div className="cont">

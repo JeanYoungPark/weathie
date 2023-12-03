@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router";
 import leftArrow from "../assets/images/leftArrow.png";
 import { useCallback } from "react";
-import character from "../assets/images/searchCharacter.png";
-import weatherIcon from "../assets/images/searchWeatherIcon.png";
+// import character from "../assets/images/searchCharacter.png";
+// import weatherIcon from "../assets/images/searchWeatherIcon.png";
 
 export const Search = () => {
     const navigate = useNavigate();
@@ -29,13 +29,13 @@ export const Search = () => {
                     <div className="left">
                         <h2 className="location">나의 위치</h2>
                         <span className="name">서울 특별시</span>
-                        <div className="img"><img src={character} alt="character" /></div>
+                        {/* <div className="img"><img src={character} alt="character" /></div> */}
                     </div>
                     <div className="right">
                         <h3 className="degree">31&deg;</h3>
                         <div>
                             <p className="kindOfWeather">
-                                <img src={weatherIcon} alt="weatherIcon" />
+                                {/* <img src={weatherIcon} alt="weatherIcon" /> */}
                                 <span>맑음</span>
                             </p>
                             <p className="degrees">
@@ -49,13 +49,13 @@ export const Search = () => {
                     <div className="left">
                         <h2 className="location">나의 위치</h2>
                         <span className="name">서울 특별시</span>
-                        <div className="img"><img src={character} alt="character" /></div>
+                        {/* <div className="img"><img src={character} alt="character" /></div> */}
                     </div>
                     <div className="right">
                         <h3 className="degree">31&deg;</h3>
                         <div>
                             <p className="kindOfWeather">
-                                <img src={weatherIcon} alt="weatherIcon" />
+                                {/* <img src={weatherIcon} alt="weatherIcon" /> */}
                                 <span>맑음</span>
                             </p>
                             <p className="degrees">

@@ -17,10 +17,23 @@ body {
     width: 100%;
     height: 100%;
     color:#333;
+    background-size: cover;
+    background-repeat: no-repeat;
 
-    &.blue {
-        background: linear-gradient(0deg, #06F -0.74%, rgba(0, 57, 203, 0.00) 36.21%), linear-gradient(0deg, #19C2F6 0%, #19C2F6 100%), linear-gradient(0deg, #F4FAFF 0%, #ACE5FF 50%, #67D2FF 100%);
-        color:#fff;
+    &.sunny {
+        background-image: url('assets/images/weatherBg/sunnyBg.png');
+    }
+
+    &.cloudy {
+        background-image: url('assets/images/weatherBg/cloudyBg.png');
+    }
+
+    &.rainy {
+        background-image: url('assets/images/weatherBg/rainyBg.png');
+    }
+
+    &.snowy {
+        background-image: url('assets/images/weatherBg/snowyBg.png');
     }
 }
 

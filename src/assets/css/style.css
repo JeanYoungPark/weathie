@@ -25,10 +25,20 @@ body input {
   width: 100%;
   height: 100%;
   color: #333;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
-#body.blue {
-  background: linear-gradient(0deg, #06F -0.74%, rgba(0, 57, 203, 0) 36.21%), linear-gradient(0deg, #19C2F6 0%, #19C2F6 100%), linear-gradient(0deg, #F4FAFF 0%, #ACE5FF 50%, #67D2FF 100%);
-  color: #fff;
+#body.sunny {
+  background-image: url("assets/images/weatherBg/sunnyBg.png");
+}
+#body.cloudy {
+  background-image: url("assets/images/weatherBg/cloudyBg.png");
+}
+#body.rainy {
+  background-image: url("assets/images/weatherBg/rainyBg.png");
+}
+#body.snowy {
+  background-image: url("assets/images/weatherBg/snowyBg.png");
 }
 
 .header {
