@@ -41,32 +41,17 @@ interface info {
     dust: string
     des: string
 }
+const week = ["일", "월", "화", "수", "목", "금", "토"];
 
-export const Weather = () => {
+export const Weather = () => {  
     const navigate = useNavigate();
+    const [date, setDate] = useState<Date>();
     const [temp, setTemp] = useState<tempType>();
     const [info, setInfo] = useState<info>();
     const [icon, setIcon] = useState<string>();
     const [character, setCharacter] = useState<string>(sunnyCloudy5dg);
-    const [location, setLocation] = useState<locationType>({
-        loaded: false,
-        coordinates: {latitude: 0, longitude: 0}
-    });
-
-    const onSuccess = useCallback((location: {coords: {latitude: number; longitude: number;}}) => {
-        setLocation({
-            loaded: true,
-            coordinates: {latitude: location.coords.latitude, longitude: location.coords.longitude}
-        });
-    }, []);
-
-    const onError = useCallback((error: {code:number; message: string}) => {
-        setLocation({
-            loaded: true,
-            error
-        });
-    }, []);
-
+    const [location, setLocation] = useState<locationType>();
+    
     const onClickMenu = useCallback(() => {
         navigate("/search");
     }, [navigate]);
@@ -76,150 +61,165 @@ export const Weather = () => {
     }, []);
 
     const handleApi = useCallback(async () => {
-        const response = await axios.post("http://localhost:8080/curr-weather", location.coordinates);
-        const data = response.data;
-
-        if(data){
-            if(data?.main){
-                // 기온 세팅
-                setTemp({now: data?.main.temp, max: data?.main.temp_max, min: data?.main.temp_min, feel: data?.main.feels_like});
-            }
-
-            if(data?.wind){
-                // 지역
-                // 풍속
-                // 강수량
-                // 미세먼지
-                // 설명
-                setInfo({place:'', wind:data?.wind.speed, rain:'', dust: '', des:data.weather.description});
-            }
-
-            if(data?.main.temp < 5) {
-                switch(data?.id){
-                    case 500:
-                        // 비 아이콘, 캐릭터 세팅
-                        setCharacter(rainy5dg);
-                        break;
-                    case 600:
-                        // 눈
-                        setCharacter(snowy5dg);
-                        break;
-                    case 800:
-                    case 801:
-                        // 맑음, 구름
-                        setCharacter(sunnyCloudy5dg);
-                        break;
-                }
-            }else if(data?.main.temp <= 5 && data?.main.temp < 10){
-                switch(data?.id){
-                    case 500:
-                        // 비 아이콘, 캐릭터 세팅
-                        setCharacter(rainy10dg);
-                        break;
-                    case 600:
-                        // 눈
-                        setCharacter(snowy10dg);
-                        break;
-                    case 800:
-                    case 801:
-                        // 맑음, 구름
-                        setCharacter(sunnyCloudy10dg);
-                        break;
-                }
-            }else if(data?.main.temp <= 10 && data?.main.temp < 22){
-                switch(data?.id){
-                    case 500:
-                        // 비 아이콘, 캐릭터 세팅
-                        setCharacter(rainy22dg);
-                        break;
-                    case 800:
-                    case 801:
-                        // 맑음, 구름
-                        setCharacter(sunnyCloudy22dg);
-                        break;
-                }
-            }else if(data?.main.temp <= 22 && data?.main.temp < 26){
-                switch(data?.id){
-                    case 500:
-                        // 비 아이콘, 캐릭터 세팅
-                        setCharacter(rainy26dg);
-                        break;
-                    case 800:
-                    case 801:
-                        // 맑음, 구름
-                        setCharacter(sunnyCloudy26dg);
-                        break;
-                }
-            }else{
-                switch(data?.id){
-                    case 500:
-                        // 비 아이콘, 캐릭터 세팅
-                        setCharacter(rainy27dg);
-                        break;
-                    case 800:
-                        // 맑음, 구름
-                        setCharacter(sunny27dg);
-                        break;
-                    case 801:
-                        // 맑음, 구름
-                        setCharacter(cloudy27dg);
-                        break;
+        if(location?.loaded){
+            const response = await axios.post("http://localhost:8080/curr-weather", location?.coordinates);
+            const data = response.data;
+            
+            if(data){
+                setTemp({now: data?.temp, max: data?.temp_max, min: data?.temp_min, feel: data?.feels_like});
+                setInfo({place:data?.name, wind:data?.speed, rain:data?.rain_1h, dust: '', des:data?.description});
+    
+                if(data?.temp < 5) {
+                    switch(data?.id){
+                        case 500:
+                            // 비 아이콘, 캐릭터 세팅
+                            setCharacter(rainy5dg);
+                            break;
+                        case 600:
+                            // 눈
+                            setCharacter(snowy5dg);
+                            break;
+                        case 800:
+                        case 801:
+                            // 맑음, 구름
+                            setCharacter(sunnyCloudy5dg);
+                            break;
+                    }
+                }else if(data?.temp <= 5 && data?.temp < 10){
+                    switch(data?.id){
+                        case 500:
+                            // 비 아이콘, 캐릭터 세팅
+                            setCharacter(rainy10dg);
+                            break;
+                        case 600:
+                            // 눈
+                            setCharacter(snowy10dg);
+                            break;
+                        case 800:
+                        case 801:
+                            // 맑음, 구름
+                            setCharacter(sunnyCloudy10dg);
+                            break;
+                    }
+                }else if(data?.temp <= 10 && data?.temp < 22){
+                    switch(data?.id){
+                        case 500:
+                            // 비 아이콘, 캐릭터 세팅
+                            setCharacter(rainy22dg);
+                            break;
+                        case 800:
+                        case 801:
+                            // 맑음, 구름
+                            setCharacter(sunnyCloudy22dg);
+                            break;
+                    }
+                }else if(data?.temp <= 22 && data?.temp < 26){
+                    switch(data?.id){
+                        case 500:
+                            // 비 아이콘, 캐릭터 세팅
+                            setCharacter(rainy26dg);
+                            break;
+                        case 800:
+                        case 801:
+                            // 맑음, 구름
+                            setCharacter(sunnyCloudy26dg);
+                            break;
+                    }
+                }else{
+                    switch(data?.id){
+                        case 500:
+                            // 비 아이콘, 캐릭터 세팅
+                            setCharacter(rainy27dg);
+                            break;
+                        case 800:
+                            // 맑음, 구름
+                            setCharacter(sunny27dg);
+                            break;
+                        case 801:
+                            // 맑음, 구름
+                            setCharacter(cloudy27dg);
+                            break;
+                    }
                 }
             }
         }
-          
-        console.log(data);
+
+    }, [location]);
+                
+    const onSuccess = useCallback((locations: {coords: {latitude: number; longitude: number;}}) => {
+        if(!location?.loaded){
+            setLocation({
+                loaded: true,
+                coordinates: {latitude: locations.coords.latitude, longitude: locations.coords.longitude}
+            });
+        }
+    }, [location]);
+
+    const onError = useCallback((error: {code:number; message: string}) => {
+        setLocation({
+            loaded: true,
+            error
+        });
     }, []);
 
     useEffect(() => {
-        if(!("geolocation" in navigator)){
-            onError({
-                code: 0,
-                message: "Geolocation not supported"
-            })
+        const today = new Date();
+        setDate(today);
+    }, []);
+
+    useEffect(() => {
+        const geo = async() => {
+            if(!("geolocation" in navigator)){
+                onError({
+                    code: 0,
+                    message: "Geolocation not supported"
+                })
+            }else{
+                navigator.geolocation.getCurrentPosition(onSuccess, onError);
+                handleApi();
+            }
         }
 
-        navigator.geolocation.getCurrentPosition(onSuccess, onError);
+        geo();
 
-        handleApi();
-    }, [handleApi, onError, onSuccess]);
+    }, [onError, onSuccess, handleApi]);
 
     return (
         <div id="body" className="blue">
             <div className="header">
                 <img className="menu" src={menu} alt="menu" onClick={onClickMenu} />
-                <p className="title">7월 27일 목요일</p>
+                <p className="title">{date?.getMonth()}월 {date?.getDate()}일 {date?.getDay()}요일</p>
                 <img className="reload" src={reload} alt="reload" onClick={onClickReload} />
             </div>
             <div id="weather" className="wrapper">
                 <div className="cont">
-                    <h1 className="place">서울특별시<img className="bookmark" src={bookmarkOff} alt="bookmark off" /></h1>
-                    <p className="weather"><img src={weatherIcon} alt="weather icon" />맑음</p>
+                    <h1 className="place">{info?.place}<img className="bookmark" src={bookmarkOff} alt="bookmark off" /></h1>
+                    <p className="weather"><img src={weatherIcon} alt="weather icon" />{info?.des}</p>
                 </div>
                 <img className="character" src={character} alt="character"/>
                 <div className="cont">
-                    <h2 className="degree">31&deg;</h2>
-                    <h3 className="text">너무나도 쨍쨍한 날</h3>
+                    <h2 className="degree">{temp?.now}&deg;</h2>
+                    <h3 className="text">데이터 없음</h3>
                     <p className="degrees">
-                        <span>최저 30&deg;</span>
-                        <span>최고 37&deg;</span>
+                        <span>최저 {temp?.min}&deg;</span>
+                        <span>최고 {temp?.max}&deg;</span>
                     </p>
                     <ul className="info">
                         <li>
                             <span><img className="kindOfWeather" src={sampleIcon} alt="샘플 이미지" />풍속</span>
-                            <div>20km/h</div>
+                            <div>{info?.wind}km/h</div>
                         </li>
                         <li>
                             <span><img className="kindOfWeather" src={sampleIcon} alt="샘플 이미지" />강수량</span>
-                            <div>0mm/h</div>
+                            <div>{info?.rain}mm/h</div>
                         </li>
                         <li>
                             <span><img className="kindOfWeather" src={sampleIcon} alt="샘플 이미지" />미세먼지</span>
-                            <div>보통</div>
+                            <div>데이터 없음</div>
                         </li>
                         <li>
                             <span><img className="kindOfWeather" src={sampleIcon} alt="샘플 이미지" />체감온도</span>
-                            <div>40&deg;</div>
+                            <div>{temp?.feel}&deg;</div>
                         </li>
                     </ul>
                 </div>
