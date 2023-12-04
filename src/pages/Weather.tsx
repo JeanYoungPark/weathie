@@ -1,6 +1,7 @@
 import "../assets/css/style.css";
 import menu from "../assets/images/menu.png";
 import reload from "../assets/images/reload.png";
+import bookmarkOn from "../assets/images/bookmarkOn.png";
 import bookmarkOff from "../assets/images/bookmarkOff.png";
 import sampleIcon from "../assets/images/sampleIcon.png";
 import { useNavigate } from "react-router";
@@ -56,6 +57,8 @@ export const Weather = () => {
     const [bg, setBg] = useState<string>();
     const [character, setCharacter] = useState<string>(sunnyCloudy5dg);
     const [location, setLocation] = useState<locationType>();
+    const [favList, setFavList] = useState<string[]>([]);
+    const [fav, setFav] = useState<Boolean>(false);
     
     const onClickMenu = useCallback(() => {
         navigate("/search");
@@ -71,6 +74,14 @@ export const Weather = () => {
             const data = response.data;
             
             if(data){
+                
+                for(const list of favList){
+                    if(list === data?.name){
+                        setFav(true);
+                        break;
+                    }
+                }
+                
                 setTemp({now: data?.temp, max: data?.temp_max, min: data?.temp_min, feel: data?.feels_like});
                 setInfo({place:data?.name, wind:data?.speed, rain:data?.rain_1h, dust: '', des:data?.description});
     
@@ -155,7 +166,7 @@ export const Weather = () => {
             }
         }
 
-    }, [location]);
+    }, [favList, location?.coordinates, location?.loaded]);
                 
     const onSuccess = useCallback((locations: {coords: {latitude: number; longitude: number;}}) => {
         if(!location?.loaded){
@@ -173,11 +184,38 @@ export const Weather = () => {
         });
     }, []);
 
+    const handleFav = useCallback(() => {
+        if(fav){
+            const arr = favList?.filter((item) => item !== info?.place);
+            // 배열에서 제거 ( 즐겨찾기 해제 )
+            setFavList(arr);
+            localStorage.setItem("place", JSON.stringify(arr));
+        }else{
+            if(info?.place){
+                const arr = [...favList, info?.place];
+                // 배열에 추가 ( 즐겨찾기 등록 )
+                setFavList([...favList, info?.place]);
+                localStorage.setItem("place", JSON.stringify(arr));
+            }
+        }
+        
+        setFav(!fav);
+    }, [fav, favList, info?.place])
+
+    // 즐겨찾기 리스트 호출
     useEffect(() => {
         const today = new Date();
         setDate(today);
+
+        const placeInfo = localStorage.getItem("place");
+
+        if(placeInfo !== null){
+            const favInfo = JSON.parse(placeInfo);
+            setFavList(favInfo);
+        }
     }, []);
 
+    // 나의 위치 호출
     useEffect(() => {
         const geo = async() => {
             if(!("geolocation" in navigator)){
@@ -190,9 +228,9 @@ export const Weather = () => {
                 handleApi();
             }
         }
-
+        
         geo();
-
+        
     }, [onError, onSuccess, handleApi]);
 
     return (
@@ -204,7 +242,7 @@ export const Weather = () => {
             </div>
             <div id="weather" className="wrapper">
                 <div className="cont">
-                    <h1 className="place">{info?.place}<img className="bookmark" src={bookmarkOff} alt="bookmark off" /></h1>
+                    <h1 className="place">{info?.place}<img className="bookmark" src={fav ? bookmarkOn : bookmarkOff} alt="bookmark off" onClick={handleFav}/></h1>
                     <p className="weather"><img src={icon} alt="weather icon" />{info?.des}</p>
                 </div>
                 <img className="character" src={character} alt="character"/>
