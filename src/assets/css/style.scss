@@ -216,6 +216,22 @@ body {
         width: 50%;
     }
 
+    &.sunny {
+        background-image: url('assets/images/weatherBg/sunnyCardBg.png');
+    }
+
+    &.cloudy {
+        background-image: url('assets/images/weatherBg/cloudyCardBg.png');
+    }
+
+    &.rainy {
+        background-image: url('assets/images/weatherBg/rainyCardBg.png');
+    }
+
+    &.snowy {
+        background-image: url('assets/images/weatherBg/snowyCardBg.png');
+    }
+
     .left {
         .location {
             font-size: 1.5em;
