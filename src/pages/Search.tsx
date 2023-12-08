@@ -1,15 +1,161 @@
+import { useCallback, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
 import leftArrow from "../assets/images/leftArrow.png";
-import { useCallback } from "react";
-// import character from "../assets/images/searchCharacter.png";
-// import weatherIcon from "../assets/images/searchWeatherIcon.png";
+import axios from "axios";
+import sunnyIcon from 'assets/images/weatherIcon/sunnyIcon.png'
+import cloudyIcon from 'assets/images/weatherIcon/cloudyIcon.png'
+import rainyIcon from 'assets/images/weatherIcon/rainyIcon.png'
+import snowyIcon from 'assets/images/weatherIcon/snowyIcon.png'
+import sunnyCloudy5dg from 'assets/images/cahracters/sunny_cloudy_5dg.png'
+import snowy5dg from 'assets/images/cahracters/snowy_5dg.png'
+import rainy5dg from 'assets/images/cahracters/rainy_5dg.png'
+import sunnyCloudy10dg from 'assets/images/cahracters/sunny_cloudy_10dg.png'
+import snowy10dg from 'assets/images/cahracters/snowy_10dg.png'
+import rainy10dg from 'assets/images/cahracters/rainy_10dg.png'
+import sunnyCloudy22dg from 'assets/images/cahracters/sunny_cloudy_22dg.png'
+import rainy22dg from 'assets/images/cahracters/rainy_22dg.png'
+import sunnyCloudy26dg from 'assets/images/cahracters/sunny_cloudy_26dg.png'
+import rainy26dg from 'assets/images/cahracters/rainy_26dg.png'
+import sunny27dg from 'assets/images/cahracters/sunny_27dg.png'
+import cloudy27dg from 'assets/images/cahracters/cloudy_27dg.png'
+import rainy27dg from 'assets/images/cahracters/rainy_27dg.png'
+
+interface locationType {
+    loaded: boolean;
+    coordinates?: {latitude: number; longitude: number};
+    error?: {code: number; message: string};
+}
+
+interface tempType {
+    now: number; //현재온도
+    max: number; // 최고 온도
+    min: number; // 최저 온도
+    feel: number; // 체감 온도
+}
+
+interface info {
+    place: string,
+    wind: string,
+    rain: string,
+    dust: string
+    des: string
+}
 
 export const Search = () => {
     const navigate = useNavigate();
+    const [temp, setTemp] = useState<tempType>();
+    const [info, setInfo] = useState<info>();
+    const [icon, setIcon] = useState<string>();
+    const [bg, setBg] = useState<string>();
+    const [character, setCharacter] = useState<string>('');
+    const [location, setLocation] = useState<locationType>();
+    const [favList, setFavList] = useState<string[]>([]);
 
     const onClick = useCallback(() => {
         navigate("/");
     }, [navigate]);
+
+    const handleApi = useCallback(async () => {
+        if(location?.loaded){
+            const response = await axios.post("http://localhost:8080/curr-weather", location?.coordinates);
+            const data = response.data;
+            
+            if(data){                
+                setTemp({now: data?.temp, max: data?.temp_max, min: data?.temp_min, feel: data?.feels_like});
+                setInfo({place:data?.name, wind:data?.speed, rain:data?.rain_1h, dust: '', des:data?.description});
+    
+                switch(data?.id){
+                    case 500:
+                        setIcon(rainyIcon);
+                        setBg('rainy');
+                        break;
+                    case 600:
+                        setIcon(snowyIcon);
+                        setBg('snowy');
+                        break;
+                    case 800:
+                        setIcon(sunnyIcon);
+                        setBg('sunny');
+                        break;
+                    case 801:
+                        setIcon(cloudyIcon);
+                        setBg('cloudy');
+                        break;
+                }
+
+                if(data?.temp < 5) {
+                    switch(data?.id){
+                        case 500:
+                            setCharacter(rainy5dg);
+                            break;
+                        case 600:
+                            setCharacter(snowy5dg);
+                            break;
+                        case 800:
+                        case 801:
+                            setCharacter(sunnyCloudy5dg);
+                            break;
+                    }
+                }else if(data?.temp <= 5 && data?.temp < 10){
+                    switch(data?.id){
+                        case 500:
+                            setCharacter(rainy10dg);
+                            break;
+                        case 600:
+                            setCharacter(snowy10dg);
+                            break;
+                        case 800:
+                        case 801:
+                            setCharacter(sunnyCloudy10dg);
+                            break;
+                    }
+                }else if(data?.temp <= 10 && data?.temp < 22){
+                    switch(data?.id){
+                        case 500:
+                            setCharacter(rainy22dg);
+                            break;
+                        case 800:
+                        case 801:
+                            setCharacter(sunnyCloudy22dg);
+                            break;
+                    }
+                }else if(data?.temp <= 22 && data?.temp < 26){
+                    switch(data?.id){
+                        case 500:
+                            setCharacter(rainy26dg);
+                            break;
+                        case 800:
+                        case 801:
+                            setCharacter(sunnyCloudy26dg);
+                            break;
+                    }
+                }else{
+                    switch(data?.id){
+                        case 500:
+                            setCharacter(rainy27dg);
+                            break;
+                        case 800:
+                            setCharacter(sunny27dg);
+                            break;
+                        case 801:
+                            setCharacter(cloudy27dg);
+                            break;
+                    }
+                }
+            }
+        }
+
+    }, [location?.coordinates, location?.loaded]);
+
+    // 즐겨찾기 리스트 호출
+    useEffect(() => {
+        const placeInfo = localStorage.getItem("place");
+
+        if(placeInfo !== null){
+            const favInfo = JSON.parse(placeInfo);
+            setFavList(favInfo);
+        }
+    }, []);
 
     return (
         <div id="body">
