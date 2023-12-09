@@ -46,6 +46,13 @@ interface info {
     dust: string
     des: string
 }
+
+interface FavLocation {
+    place: string;
+    lat: number;
+    lon: number;
+  }
+
 const week = ["일", "월", "화", "수", "목", "금", "토"];
 
 export const Weather = () => {  
@@ -58,6 +65,7 @@ export const Weather = () => {
     const [character, setCharacter] = useState<string>('');
     const [location, setLocation] = useState<locationType>();
     const [favList, setFavList] = useState<string[]>([]);
+    const [favLocations, setFavLocations] = useState<FavLocation[]>([]);
     const [fav, setFav] = useState<Boolean>(false);
     
     const onClickMenu = useCallback(() => {
@@ -201,20 +209,30 @@ export const Weather = () => {
     const handleFav = useCallback(() => {
         if(fav){
             const arr = favList?.filter((item) => item !== info?.place);
+            const arr2 = favLocations?.filter((item) => item.place !== info?.place);
             // 배열에서 제거 ( 즐겨찾기 해제 )
             setFavList(arr);
             localStorage.setItem("place", JSON.stringify(arr));
+            setFavLocations(arr2);
+            localStorage.setItem("location", JSON.stringify(arr2));
         }else{
-            if(info?.place){
-                const arr = [...favList, info?.place];
+            if(info?.place && location?.coordinates){
+                const newFav = {
+                    place: info?.place,
+                    lat: location?.coordinates?.latitude,
+                    lon: location?.coordinates?.longitude
+                };
+                
                 // 배열에 추가 ( 즐겨찾기 등록 )
                 setFavList([...favList, info?.place]);
-                localStorage.setItem("place", JSON.stringify(arr));
+                setFavLocations([...favLocations, newFav]);
+                localStorage.setItem("place", JSON.stringify([...favList, info?.place]));
+                localStorage.setItem("location", JSON.stringify([...favLocations, newFav]));
             }
         }
         
         setFav(!fav);
-    }, [fav, favList, info?.place])
+    }, [fav, favList, favLocations, info?.place, location?.coordinates])
 
     // 즐겨찾기 리스트 호출
     useEffect(() => {
@@ -222,10 +240,16 @@ export const Weather = () => {
         setDate(today);
 
         const placeInfo = localStorage.getItem("place");
+        const locationInfo = localStorage.getItem("location");
 
         if(placeInfo !== null){
             const favInfo = JSON.parse(placeInfo);
             setFavList(favInfo);
+        }
+
+        if(locationInfo !== null){
+            const favLocationInfo = JSON.parse(locationInfo);
+            setFavLocations(favLocationInfo);
         }
     }, []);
 
