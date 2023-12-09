@@ -3,7 +3,6 @@ import menu from "../assets/images/menu.png";
 import reload from "../assets/images/reload.png";
 import bookmarkOn from "../assets/images/bookmarkOn.png";
 import bookmarkOff from "../assets/images/bookmarkOff.png";
-import sampleIcon from "../assets/images/sampleIcon.png";
 import { useNavigate } from "react-router";
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
@@ -24,7 +23,8 @@ import sunnyIcon from 'assets/images/weatherIcon/sunnyIcon.png'
 import cloudyIcon from 'assets/images/weatherIcon/cloudyIcon.png'
 import rainyIcon from 'assets/images/weatherIcon/rainyIcon.png'
 import snowyIcon from 'assets/images/weatherIcon/snowyIcon.png'
-
+import windSpeed from 'assets/images/weatherIcon/windSpeed.png'
+import precipitation from 'assets/images/weatherIcon/precipitation.png'
 
 interface locationType {
     loaded: boolean;
@@ -83,9 +83,11 @@ export const Weather = () => {
                 }
                 
                 setTemp({now: data?.temp, max: data?.temp_max, min: data?.temp_min, feel: data?.feels_like});
-                setInfo({place:data?.name, wind:data?.speed, rain:data?.rain_1h, dust: '', des:data?.description});
+                setInfo({place:data?.name, wind:data?.speed, rain:data?.rain_1h, dust: data?.air, des:data?.description});
     
                 switch(data?.id){
+                    case 200:
+                    case 300:
                     case 500:
                         setIcon(rainyIcon);
                         setBg('rainy');
@@ -98,6 +100,7 @@ export const Weather = () => {
                         setIcon(sunnyIcon);
                         setBg('sunny');
                         break;
+                    case 700:
                     case 801:
                         setIcon(cloudyIcon);
                         setBg('cloudy');
@@ -106,12 +109,15 @@ export const Weather = () => {
 
                 if(data?.temp < 5) {
                     switch(data?.id){
+                        case 200:
+                        case 300:
                         case 500:
                             setCharacter(rainy5dg);
                             break;
                         case 600:
                             setCharacter(snowy5dg);
                             break;
+                        case 700:
                         case 800:
                         case 801:
                             setCharacter(sunnyCloudy5dg);
@@ -119,12 +125,15 @@ export const Weather = () => {
                     }
                 }else if(data?.temp <= 5 && data?.temp < 10){
                     switch(data?.id){
+                        case 200:
+                        case 300:
                         case 500:
                             setCharacter(rainy10dg);
                             break;
                         case 600:
                             setCharacter(snowy10dg);
                             break;
+                        case 700:
                         case 800:
                         case 801:
                             setCharacter(sunnyCloudy10dg);
@@ -132,9 +141,12 @@ export const Weather = () => {
                     }
                 }else if(data?.temp <= 10 && data?.temp < 22){
                     switch(data?.id){
+                        case 200:
+                        case 300:
                         case 500:
                             setCharacter(rainy22dg);
                             break;
+                        case 700:                            
                         case 800:
                         case 801:
                             setCharacter(sunnyCloudy22dg);
@@ -145,6 +157,7 @@ export const Weather = () => {
                         case 500:
                             setCharacter(rainy26dg);
                             break;
+                        case 700:
                         case 800:
                         case 801:
                             setCharacter(sunnyCloudy26dg);
@@ -158,6 +171,7 @@ export const Weather = () => {
                         case 800:
                             setCharacter(sunny27dg);
                             break;
+                        case 700:
                         case 801:
                             setCharacter(cloudy27dg);
                             break;
@@ -255,19 +269,19 @@ export const Weather = () => {
                     </p>
                     <ul className="info">
                         <li>
-                            <span><img className="kindOfWeather" src={sampleIcon} alt="샘플 이미지" />풍속</span>
+                            <span><img className="kindOfWeather" src={windSpeed} alt="샘플 이미지" />풍속</span>
                             <div>{info?.wind}km/h</div>
                         </li>
                         <li>
-                            <span><img className="kindOfWeather" src={sampleIcon} alt="샘플 이미지" />강수량</span>
+                            <span><img className="kindOfWeather" src={precipitation} alt="샘플 이미지" />강수량</span>
                             <div>{info?.rain}mm/h</div>
                         </li>
                         <li>
-                            <span><img className="kindOfWeather" src={sampleIcon} alt="샘플 이미지" />미세먼지</span>
-                            <div>데이터 없음</div>
+                            <span><img className="kindOfWeather" src={precipitation} alt="샘플 이미지" />미세먼지</span>
+                            <div>{info?.dust}</div>
                         </li>
                         <li>
-                            <span><img className="kindOfWeather" src={sampleIcon} alt="샘플 이미지" />체감온도</span>
+                            <span><img className="kindOfWeather" src={precipitation} alt="샘플 이미지" />체감온도</span>
                             <div>{temp?.feel}&deg;</div>
                         </li>
                     </ul>

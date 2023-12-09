@@ -54,6 +54,7 @@ body input {
 .header .title {
   font-size: 1em;
   font-weight: 300;
+  color: #fff;
 }
 .header .reload {
   cursor: pointer;
@@ -76,6 +77,7 @@ body input {
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: #fff;
 }
 .wrapper .cont .place {
   display: flex;
@@ -83,6 +85,7 @@ body input {
   font-weight: 300;
   font-size: 2em;
   margin-bottom: 15px;
+  color: #fff;
 }
 .wrapper .cont .bookmark {
   margin-left: 8px;
