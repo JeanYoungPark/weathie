@@ -51,7 +51,7 @@ interface FavLocation {
     place: string;
     lat: number;
     lon: number;
-  }
+}
 
 const week = ["일", "월", "화", "수", "목", "금", "토"];
 
