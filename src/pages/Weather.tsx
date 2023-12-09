@@ -55,7 +55,7 @@ export const Weather = () => {
     const [info, setInfo] = useState<info>();
     const [icon, setIcon] = useState<string>();
     const [bg, setBg] = useState<string>();
-    const [character, setCharacter] = useState<string>(sunnyCloudy5dg);
+    const [character, setCharacter] = useState<string>('');
     const [location, setLocation] = useState<locationType>();
     const [favList, setFavList] = useState<string[]>([]);
     const [fav, setFav] = useState<Boolean>(false);
