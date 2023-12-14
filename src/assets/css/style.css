@@ -192,13 +192,27 @@ body input {
   background: skyblue;
   margin-top: 1.2vh;
   box-sizing: border-box;
-  border-radius: 16px;
+  border-radius: 30px;
   color: #fff;
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .favoriteList > div {
   display: flex;
   flex-direction: column;
   width: 50%;
+}
+.favoriteList.sunny {
+  background-image: url("assets/images/weatherBg/sunnyCardBg.png");
+}
+.favoriteList.cloudy {
+  background-image: url("assets/images/weatherBg/cloudyCardBg.png");
+}
+.favoriteList.rainy {
+  background-image: url("assets/images/weatherBg/rainyCardBg.png");
+}
+.favoriteList.snowy {
+  background-image: url("assets/images/weatherBg/snowyCardBg.png");
 }
 .favoriteList .left .location {
   font-size: 1.5em;
@@ -211,7 +225,10 @@ body input {
   margin-bottom: 30px;
 }
 .favoriteList .left .img {
-  width: 50%;
+  width: 30%;
+}
+.favoriteList .left .img img {
+  width: 100%;
 }
 .favoriteList .right {
   align-items: flex-end;

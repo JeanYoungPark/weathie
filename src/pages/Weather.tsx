@@ -23,8 +23,10 @@ import sunnyIcon from 'assets/images/weatherIcon/sunnyIcon.png'
 import cloudyIcon from 'assets/images/weatherIcon/cloudyIcon.png'
 import rainyIcon from 'assets/images/weatherIcon/rainyIcon.png'
 import snowyIcon from 'assets/images/weatherIcon/snowyIcon.png'
-import windSpeed from 'assets/images/weatherIcon/windSpeed.png'
-import precipitation from 'assets/images/weatherIcon/precipitation.png'
+import windSpeedIcon from 'assets/images/weatherIcon/windSpeed.png'
+import precipitationIcon from 'assets/images/weatherIcon/precipitation.png'
+import dustIcon from 'assets/images/weatherIcon/dustIcon.png'
+import temperatureIcon from 'assets/images/weatherIcon/temperatureIcon.png'
 
 interface locationType {
     loaded: boolean;
@@ -78,9 +80,10 @@ export const Weather = () => {
 
     const handleApi = useCallback(async () => {
         if(location?.loaded){
+            console.log(location?.coordinates);
             const response = await axios.post("http://localhost:8080/curr-weather", location?.coordinates);
             const data = response.data;
-            
+            console.log(data);
             if(data){
                 
                 for(const list of favList){
@@ -293,19 +296,19 @@ export const Weather = () => {
                     </p>
                     <ul className="info">
                         <li>
-                            <span><img className="kindOfWeather" src={windSpeed} alt="샘플 이미지" />풍속</span>
+                            <span><img className="kindOfWeather" src={windSpeedIcon} alt="샘플 이미지" />풍속</span>
                             <div>{info?.wind}km/h</div>
                         </li>
                         <li>
-                            <span><img className="kindOfWeather" src={precipitation} alt="샘플 이미지" />강수량</span>
+                            <span><img className="kindOfWeather" src={precipitationIcon} alt="샘플 이미지" />강수량</span>
                             <div>{info?.rain}mm/h</div>
                         </li>
                         <li>
-                            <span><img className="kindOfWeather" src={precipitation} alt="샘플 이미지" />미세먼지</span>
+                            <span><img className="kindOfWeather" src={dustIcon} alt="샘플 이미지" />미세먼지</span>
                             <div>{info?.dust}</div>
                         </li>
                         <li>
-                            <span><img className="kindOfWeather" src={precipitation} alt="샘플 이미지" />체감온도</span>
+                            <span><img className="kindOfWeather" src={temperatureIcon} alt="샘플 이미지" />체감온도</span>
                             <div>{temp?.feel}&deg;</div>
                         </li>
                     </ul>
