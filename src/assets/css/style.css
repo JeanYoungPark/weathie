@@ -92,6 +92,8 @@ body input {
   cursor: pointer;
 }
 .wrapper .cont .weather {
+  display: flex;
+  align-items: center;
   font-size: 1.2em;
   font-weight: 300;
 }

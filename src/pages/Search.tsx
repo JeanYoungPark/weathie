@@ -68,11 +68,26 @@ export const Search = () => {
     const navigate = useNavigate();
     const [favList, setFavList] = useState<FavList[]>([]);
     const [favWeatherInfo, setFavWeatherInfo] = useState<favWeatherInfoType[]>([]);
+    const [searchWeatherInfo, setSearchWeatherInfo] = useState<favWeatherInfoType[]>([]);
     const [inputVal, setInputVal] = useState<string>('');
-
+    
     const onSearch = useCallback(() => {
         // inputVal가 변화함애 따라 검색 내용 변경
-    }, []);
+        const searchWeatherInfoList = [];
+        for(let favWeatherInfoData of favWeatherInfo){
+            const str = favWeatherInfoData.infoList.place;
+            
+            if(str.includes(inputVal)){
+                searchWeatherInfoList.push({
+                    tmpList: favWeatherInfoData.tmpList,
+                    infoList: favWeatherInfoData.infoList,
+                    assetList: favWeatherInfoData.assetList
+                });
+            }
+        }
+        
+        setSearchWeatherInfo(searchWeatherInfoList);
+    }, [favWeatherInfo, inputVal]);
 
     const onClick = useCallback(() => {
         navigate("/");
@@ -87,7 +102,7 @@ export const Search = () => {
             const favWeatherInfoList = [];
 
             for(let list of data){
-                const tempList = {now: list?.temp, max: list?.temp_max, min: list?.temp_min, feel: list?.feels_like};
+                const tmpList = {now: list?.temp, max: list?.temp_max, min: list?.temp_min, feel: list?.feels_like};
                 const infoList = {place:list?.name, wind:list?.speed, rain:list?.rain_1h, dust: list?.air, des:list?.description};
                 const assetList : favWeatherIconType = {
                     icon: "",
@@ -175,7 +190,7 @@ export const Search = () => {
                 }
 
                 favWeatherInfoList.push({
-                    tmpList: tempList,
+                    tmpList: tmpList,
                     infoList: infoList,
                     assetList: assetList
                 });
@@ -215,7 +230,11 @@ export const Search = () => {
 
         handleFavweather();
     }, [handleApi]);
-
+    
+    useEffect(() => {
+        onSearch();
+    }, [onSearch]);
+    
     return (
         <div id="body">
             <div className="header">
@@ -226,11 +245,11 @@ export const Search = () => {
             <div className="wrapper">
                 <p className="searchBar">
                     <input type="text" value={inputVal} onChange={(e) => setInputVal(e.target.value)} placeholder="도시 또는 위치 검색" />
-                    <span className="searchIcon"></span>
+                    <span className="searchIcon" onClick={onSearch}></span>
                 </p>
             </div>
             <ul className="wrapper">
-                {favWeatherInfo.map((data, i) => (
+                {(inputVal ? searchWeatherInfo : favWeatherInfo).map((data, i) => (
                     <li key={i} className={`favoriteList ${data.assetList.bg}`}>
                         <div className="left">
                             <h2 className="location">나의 위치</h2>
