@@ -66,13 +66,13 @@ type favWeatherInfoType = {
 
 export const Search = () => {
     const navigate = useNavigate();
-    const [temp, setTemp] = useState<tempType>();
-    const [info, setInfo] = useState<info>();
-    const [icon, setIcon] = useState<string>();
-    const [bg, setBg] = useState<string>();
-    const [character, setCharacter] = useState<string>('');
     const [favList, setFavList] = useState<FavList[]>([]);
     const [favWeatherInfo, setFavWeatherInfo] = useState<favWeatherInfoType[]>([]);
+    const [inputVal, setInputVal] = useState<string>('');
+
+    const onSearch = useCallback(() => {
+        // inputVal가 변화함애 따라 검색 내용 변경
+    }, []);
 
     const onClick = useCallback(() => {
         navigate("/");
@@ -225,7 +225,7 @@ export const Search = () => {
             </div>
             <div className="wrapper">
                 <p className="searchBar">
-                    <input type="text" placeholder="도시 또는 위치 검색" />
+                    <input type="text" value={inputVal} onChange={(e) => setInputVal(e.target.value)} placeholder="도시 또는 위치 검색" />
                     <span className="searchIcon"></span>
                 </p>
             </div>
