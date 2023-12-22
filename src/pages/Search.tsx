@@ -19,6 +19,7 @@ import rainy26dg from 'assets/images/cahracters/rainy_26dg.png'
 import sunny27dg from 'assets/images/cahracters/sunny_27dg.png'
 import cloudy27dg from 'assets/images/cahracters/cloudy_27dg.png'
 import rainy27dg from 'assets/images/cahracters/rainy_27dg.png'
+import { LoadingComponent } from "components/LoadingComponent";
 
 interface tempType {
     now: number; //현재온도
@@ -239,6 +240,9 @@ export const Search = () => {
     
     return (
         <div id="body">
+            {loading && (
+                <LoadingComponent/>
+            )}
             <div className="header">
                 <img className="back" src={leftArrow} alt="back" onClick={onClick}/>
                 <h1 className="title">날씨</h1>
