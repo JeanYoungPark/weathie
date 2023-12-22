@@ -1,11 +1,11 @@
 import "../assets/css/style.css";
+import { axiosInstance } from "axiosConfig";
 import menu from "../assets/images/menu.png";
 import reload from "../assets/images/reload.png";
 import bookmarkOn from "../assets/images/bookmarkOn.png";
 import bookmarkOff from "../assets/images/bookmarkOff.png";
 import { useNavigate } from "react-router";
 import { useCallback, useEffect, useState } from "react";
-import axios from "axios";
 import sunnyCloudy5dg from 'assets/images/cahracters/sunny_cloudy_5dg.png'
 import snowy5dg from 'assets/images/cahracters/snowy_5dg.png'
 import rainy5dg from 'assets/images/cahracters/rainy_5dg.png'
@@ -27,6 +27,7 @@ import windSpeedIcon from 'assets/images/weatherIcon/windSpeed.png'
 import precipitationIcon from 'assets/images/weatherIcon/precipitation.png'
 import dustIcon from 'assets/images/weatherIcon/dustIcon.png'
 import temperatureIcon from 'assets/images/weatherIcon/temperatureIcon.png'
+import { LoadingComponent } from "components/LoadingComponent";
 
 interface locationType {
     loaded: boolean;
@@ -69,6 +70,7 @@ export const Weather = () => {
     const [favList, setFavList] = useState<string[]>([]);
     const [favLocations, setFavLocations] = useState<FavLocation[]>([]);
     const [fav, setFav] = useState<Boolean>(false);
+    const [loading, setLoading] = useState<boolean>(false);
     
     const onClickMenu = useCallback(() => {
         navigate("/search");
@@ -80,114 +82,119 @@ export const Weather = () => {
 
     const handleApi = useCallback(async () => {
         if(location?.loaded){
-            console.log(location?.coordinates);
-            const response = await axios.post("http://localhost:8080/curr-weather", location?.coordinates);
-            const data = response.data;
-            console.log(data);
-            if(data){
+            try {
+                setLoading(true);
+                const response = await axiosInstance.post("/curr-weather", location?.coordinates);
+                const data = response.data;
                 
-                for(const list of favList){
-                    if(list === data?.name){
-                        setFav(true);
-                        break;
+                if(data){
+                    setLoading(false);
+                    for(const list of favList){
+                        if(list === data?.name){
+                            setFav(true);
+                            break;
+                        }
                     }
-                }
-                
-                setTemp({now: data?.temp, max: data?.temp_max, min: data?.temp_min, feel: data?.feels_like});
-                setInfo({place:data?.name, wind:data?.speed, rain:data?.rain_1h, dust: data?.air, des:data?.description});
+                    
+                    setTemp({now: data?.temp, max: data?.temp_max, min: data?.temp_min, feel: data?.feels_like});
+                    setInfo({place:data?.name, wind:data?.speed, rain:data?.rain_1h, dust: data?.air, des:data?.description});
+        
+                    switch(data?.id){
+                        case 200:
+                        case 300:
+                        case 500:
+                            setIcon(rainyIcon);
+                            setBg('rainy');
+                            break;
+                        case 600:
+                            setIcon(snowyIcon);
+                            setBg('snowy');
+                            break;
+                        case 800:
+                            setIcon(sunnyIcon);
+                            setBg('sunny');
+                            break;
+                        case 700:
+                        case 801:
+                            setIcon(cloudyIcon);
+                            setBg('cloudy');
+                            break;
+                    }
     
-                switch(data?.id){
-                    case 200:
-                    case 300:
-                    case 500:
-                        setIcon(rainyIcon);
-                        setBg('rainy');
-                        break;
-                    case 600:
-                        setIcon(snowyIcon);
-                        setBg('snowy');
-                        break;
-                    case 800:
-                        setIcon(sunnyIcon);
-                        setBg('sunny');
-                        break;
-                    case 700:
-                    case 801:
-                        setIcon(cloudyIcon);
-                        setBg('cloudy');
-                        break;
-                }
-
-                if(data?.temp < 5) {
-                    switch(data?.id){
-                        case 200:
-                        case 300:
-                        case 500:
-                            setCharacter(rainy5dg);
-                            break;
-                        case 600:
-                            setCharacter(snowy5dg);
-                            break;
-                        case 700:
-                        case 800:
-                        case 801:
-                            setCharacter(sunnyCloudy5dg);
-                            break;
-                    }
-                }else if(data?.temp <= 5 && data?.temp < 10){
-                    switch(data?.id){
-                        case 200:
-                        case 300:
-                        case 500:
-                            setCharacter(rainy10dg);
-                            break;
-                        case 600:
-                            setCharacter(snowy10dg);
-                            break;
-                        case 700:
-                        case 800:
-                        case 801:
-                            setCharacter(sunnyCloudy10dg);
-                            break;
-                    }
-                }else if(data?.temp <= 10 && data?.temp < 22){
-                    switch(data?.id){
-                        case 200:
-                        case 300:
-                        case 500:
-                            setCharacter(rainy22dg);
-                            break;
-                        case 700:                            
-                        case 800:
-                        case 801:
-                            setCharacter(sunnyCloudy22dg);
-                            break;
-                    }
-                }else if(data?.temp <= 22 && data?.temp < 26){
-                    switch(data?.id){
-                        case 500:
-                            setCharacter(rainy26dg);
-                            break;
-                        case 700:
-                        case 800:
-                        case 801:
-                            setCharacter(sunnyCloudy26dg);
-                            break;
-                    }
-                }else{
-                    switch(data?.id){
-                        case 500:
-                            setCharacter(rainy27dg);
-                            break;
-                        case 800:
-                            setCharacter(sunny27dg);
-                            break;
-                        case 700:
-                        case 801:
-                            setCharacter(cloudy27dg);
-                            break;
+                    if(data?.temp < 5) {
+                        switch(data?.id){
+                            case 200:
+                            case 300:
+                            case 500:
+                                setCharacter(rainy5dg);
+                                break;
+                            case 600:
+                                setCharacter(snowy5dg);
+                                break;
+                            case 700:
+                            case 800:
+                            case 801:
+                                setCharacter(sunnyCloudy5dg);
+                                break;
+                        }
+                    }else if(data?.temp <= 5 && data?.temp < 10){
+                        switch(data?.id){
+                            case 200:
+                            case 300:
+                            case 500:
+                                setCharacter(rainy10dg);
+                                break;
+                            case 600:
+                                setCharacter(snowy10dg);
+                                break;
+                            case 700:
+                            case 800:
+                            case 801:
+                                setCharacter(sunnyCloudy10dg);
+                                break;
+                        }
+                    }else if(data?.temp <= 10 && data?.temp < 22){
+                        switch(data?.id){
+                            case 200:
+                            case 300:
+                            case 500:
+                                setCharacter(rainy22dg);
+                                break;
+                            case 700:                            
+                            case 800:
+                            case 801:
+                                setCharacter(sunnyCloudy22dg);
+                                break;
+                        }
+                    }else if(data?.temp <= 22 && data?.temp < 26){
+                        switch(data?.id){
+                            case 500:
+                                setCharacter(rainy26dg);
+                                break;
+                            case 700:
+                            case 800:
+                            case 801:
+                                setCharacter(sunnyCloudy26dg);
+                                break;
+                        }
+                    }else{
+                        switch(data?.id){
+                            case 500:
+                                setCharacter(rainy27dg);
+                                break;
+                            case 800:
+                                setCharacter(sunny27dg);
+                                break;
+                            case 700:
+                            case 801:
+                                setCharacter(cloudy27dg);
+                                break;
+                        }
                     }
                 }
+            } catch (error) {
+                setLoading(false);
+                console.log(error);
             }
         }
 
@@ -276,6 +283,9 @@ export const Weather = () => {
 
     return (
         <div id="body" className={bg}>
+            {loading && (
+                <LoadingComponent/>
+            )}
             <div className="header">
                 <img className="menu" src={menu} alt="menu" onClick={onClickMenu} />
                 <p className="title">{date?.getMonth()}월 {date?.getDate()}일 {week[date?.getDay() ?? 0]}요일</p>

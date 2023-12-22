@@ -1,7 +1,7 @@
 import { useCallback, useState, useEffect } from "react";
 import { useNavigate } from "react-router";
-import leftArrow from "../assets/images/leftArrow.png";
-import axios from "axios";
+import { axiosInstance } from "axiosConfig";
+import leftArrow from "assets/images/leftArrow.png";
 import sunnyIcon from 'assets/images/weatherIcon/sunnyIcon.png'
 import cloudyIcon from 'assets/images/weatherIcon/cloudyIcon.png'
 import rainyIcon from 'assets/images/weatherIcon/rainyIcon.png'
@@ -19,12 +19,6 @@ import rainy26dg from 'assets/images/cahracters/rainy_26dg.png'
 import sunny27dg from 'assets/images/cahracters/sunny_27dg.png'
 import cloudy27dg from 'assets/images/cahracters/cloudy_27dg.png'
 import rainy27dg from 'assets/images/cahracters/rainy_27dg.png'
-
-interface locationType {
-    loaded: boolean;
-    coordinates?: {latitude: number; longitude: number};
-    error?: {code: number; message: string};
-}
 
 interface tempType {
     now: number; //현재온도
@@ -70,6 +64,7 @@ export const Search = () => {
     const [favWeatherInfo, setFavWeatherInfo] = useState<favWeatherInfoType[]>([]);
     const [searchWeatherInfo, setSearchWeatherInfo] = useState<favWeatherInfoType[]>([]);
     const [inputVal, setInputVal] = useState<string>('');
+    const [loading, setLoading] = useState<boolean>(false);
     
     const onSearch = useCallback(() => {
         // inputVal가 변화함애 따라 검색 내용 변경
@@ -94,111 +89,118 @@ export const Search = () => {
     }, [navigate]);
 
     const handleApi = useCallback(async (locations: FavLocation[]) => {
-        
-        const response = await axios.post("http://localhost:8080/list-weather", locations);
-        const data = response.data;
-        
-        if(data){     
-            const favWeatherInfoList = [];
+        try {
+            setLoading(true);
+            const response = await axiosInstance.post("/list-weather", locations);
+            const data = response.data;
 
-            for(let list of data){
-                const tmpList = {now: list?.temp, max: list?.temp_max, min: list?.temp_min, feel: list?.feels_like};
-                const infoList = {place:list?.name, wind:list?.speed, rain:list?.rain_1h, dust: list?.air, des:list?.description};
-                const assetList : favWeatherIconType = {
-                    icon: "",
-                    character: "",
-                    bg: ""
-                };
-                
-                switch(list?.id){
-                    case 500:
-                        assetList['icon'] = rainyIcon;
-                        assetList['bg'] = 'rainy';
-                        break;
-                    case 600:
-                        assetList['icon'] = snowyIcon;
-                        assetList['bg'] = 'snowy';
-                        break;
-                    case 800:
-                        assetList['icon'] = sunnyIcon;
-                        assetList['bg'] = 'sunny';
-                        break;
-                    case 801:
-                        assetList['icon'] = cloudyIcon;
-                        assetList['bg'] = 'cloudy';
-                        break;
+            if(data){   
+                setLoading(false);  
+                const favWeatherInfoList = [];
+    
+                for(let list of data){
+                    const tmpList = {now: list?.temp, max: list?.temp_max, min: list?.temp_min, feel: list?.feels_like};
+                    const infoList = {place:list?.name, wind:list?.speed, rain:list?.rain_1h, dust: list?.air, des:list?.description};
+                    const assetList : favWeatherIconType = {
+                        icon: "",
+                        character: "",
+                        bg: ""
+                    };
+                    
+                    switch(list?.id){
+                        case 500:
+                            assetList['icon'] = rainyIcon;
+                            assetList['bg'] = 'rainy';
+                            break;
+                        case 600:
+                            assetList['icon'] = snowyIcon;
+                            assetList['bg'] = 'snowy';
+                            break;
+                        case 800:
+                            assetList['icon'] = sunnyIcon;
+                            assetList['bg'] = 'sunny';
+                            break;
+                        case 801:
+                            assetList['icon'] = cloudyIcon;
+                            assetList['bg'] = 'cloudy';
+                            break;
+                    }
+        
+                    if(data?.temp < 5) {
+                        switch(data?.id){
+                            case 500:
+                                assetList['character'] = rainy5dg;
+                                break;
+                            case 600:
+                                assetList['character'] = snowy5dg;
+                                break;
+                            case 800:
+                            case 801:
+                                assetList['character'] = sunnyCloudy5dg;
+                                break;
+                        }
+                    }else if(list?.temp <= 5 && list?.temp < 10){
+                        switch(list?.id){
+                            case 500:
+                                assetList['character'] = rainy10dg;
+                                break;
+                            case 600:
+                                assetList['character'] = snowy10dg;
+                                break;
+                            case 800:
+                            case 801:
+                                    assetList['character'] = sunnyCloudy10dg;
+                                break;
+                        }
+                    }else if(list?.temp <= 10 && list?.temp < 22){
+                        switch(list?.id){
+                            case 500:
+                                    assetList['character'] = rainy22dg;
+                                break;
+                            case 800:
+                            case 801:
+                                    assetList['character'] = sunnyCloudy22dg;
+                                break;
+                        }
+                    }else if(list?.temp <= 22 && list?.temp < 26){
+                        switch(list?.id){
+                            case 500:
+                                    assetList['character'] = rainy26dg;
+                                break;
+                            case 800:
+                            case 801:
+                                    assetList['character'] = sunnyCloudy26dg;
+                                break;
+                        }
+                    }else{
+                        switch(list?.id){
+                            case 500:
+                                    assetList['character'] = rainy27dg;
+                                break;
+                            case 800:
+                                    assetList['character'] = sunny27dg;
+                                break;
+                            case 801:
+                                    assetList['character'] = cloudy27dg;
+                                break;
+                        }
+                    }
+    
+                    favWeatherInfoList.push({
+                        tmpList: tmpList,
+                        infoList: infoList,
+                        assetList: assetList
+                    });
                 }
     
-                if(data?.temp < 5) {
-                    switch(data?.id){
-                        case 500:
-                            assetList['character'] = rainy5dg;
-                            break;
-                        case 600:
-                            assetList['character'] = snowy5dg;
-                            break;
-                        case 800:
-                        case 801:
-                            assetList['character'] = sunnyCloudy5dg;
-                            break;
-                    }
-                }else if(list?.temp <= 5 && list?.temp < 10){
-                    switch(list?.id){
-                        case 500:
-                            assetList['character'] = rainy10dg;
-                            break;
-                        case 600:
-                            assetList['character'] = snowy10dg;
-                            break;
-                        case 800:
-                        case 801:
-                                assetList['character'] = sunnyCloudy10dg;
-                            break;
-                    }
-                }else if(list?.temp <= 10 && list?.temp < 22){
-                    switch(list?.id){
-                        case 500:
-                                assetList['character'] = rainy22dg;
-                            break;
-                        case 800:
-                        case 801:
-                                assetList['character'] = sunnyCloudy22dg;
-                            break;
-                    }
-                }else if(list?.temp <= 22 && list?.temp < 26){
-                    switch(list?.id){
-                        case 500:
-                                assetList['character'] = rainy26dg;
-                            break;
-                        case 800:
-                        case 801:
-                                assetList['character'] = sunnyCloudy26dg;
-                            break;
-                    }
-                }else{
-                    switch(list?.id){
-                        case 500:
-                                assetList['character'] = rainy27dg;
-                            break;
-                        case 800:
-                                assetList['character'] = sunny27dg;
-                            break;
-                        case 801:
-                                assetList['character'] = cloudy27dg;
-                            break;
-                    }
-                }
-
-                favWeatherInfoList.push({
-                    tmpList: tmpList,
-                    infoList: infoList,
-                    assetList: assetList
-                });
+                setFavWeatherInfo(favWeatherInfoList);
+    
             }
-
-            setFavWeatherInfo(favWeatherInfoList);
-
+        } catch (error) {
+            setLoading(false);
+            console.log(error);
         }
+        
 
     }, []);
 
