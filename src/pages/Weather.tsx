@@ -286,42 +286,45 @@ export const Weather = () => {
             {loading && (
                 <LoadingComponent/>
             )}
-            <div className="header">
-                <img className="menu" src={menu} alt="menu" onClick={onClickMenu} />
-                <p className="title">{date?.getMonth()}월 {date?.getDate()}일 {week[date?.getDay() ?? 0]}요일</p>
-                <img className="reload" src={reload} alt="reload" onClick={onClickReload} />
-            </div>
-            <div id="weather" className="wrapper">
-                <div className="cont">
-                    <h1 className="place">{info?.place}<img className="bookmark" src={fav ? bookmarkOn : bookmarkOff} alt="bookmark off" onClick={handleFav}/></h1>
-                    <p className="weather"><img src={icon} alt="weather icon" />{info?.des}</p>
+            <div className="wrapper">
+                <div className="header">
+                    <img className="menu" src={menu} alt="menu" onClick={onClickMenu} />
+                    <p className="title">{date && date.getMonth()+1}월 {date?.getDate()}일 {week[date?.getDay() ?? 0]}요일</p>
+                    <img className="reload" src={reload} alt="reload" onClick={onClickReload} />
                 </div>
-                <img className="character" src={character} alt="character"/>
-                <div className="cont">
-                    <h2 className="degree">{temp?.now}&deg;</h2>
-                    <h3 className="text">데이터 없음</h3>
-                    <p className="degrees">
-                        <span>최저 {temp?.min}&deg;</span>
-                        <span>최고 {temp?.max}&deg;</span>
-                    </p>
-                    <ul className="info">
-                        <li>
-                            <span><img className="kindOfWeather" src={windSpeedIcon} alt="샘플 이미지" />풍속</span>
-                            <div>{info?.wind}km/h</div>
-                        </li>
-                        <li>
-                            <span><img className="kindOfWeather" src={precipitationIcon} alt="샘플 이미지" />강수량</span>
-                            <div>{info?.rain}mm/h</div>
-                        </li>
-                        <li>
-                            <span><img className="kindOfWeather" src={dustIcon} alt="샘플 이미지" />미세먼지</span>
-                            <div>{info?.dust}</div>
-                        </li>
-                        <li>
-                            <span><img className="kindOfWeather" src={temperatureIcon} alt="샘플 이미지" />체감온도</span>
-                            <div>{temp?.feel}&deg;</div>
-                        </li>
-                    </ul>
+                <div id="weather">
+                    <div className="cont">
+                        <h1 className="place">{info?.place}<img className="bookmark" src={fav ? bookmarkOn : bookmarkOff} alt="bookmark off" onClick={handleFav}/></h1>
+                        <p className="weather"><img src={icon} alt="weather icon" />{info?.des}</p>
+                    </div>
+                    <div className="cont">
+                        <img className="character" src={character} alt="character"/>
+                    </div>
+                    <div className="cont flex-end">
+                        <h2 className="degree">{temp?.now}&deg;</h2>
+                        <p className="degrees">
+                            <span>최저 {temp?.min}&deg;</span>
+                            <span>최고 {temp?.max}&deg;</span>
+                        </p>
+                        <ul className="info">
+                            <li>
+                                <span><img className="kindOfWeather" src={windSpeedIcon} alt="샘플 이미지" />풍속</span>
+                                <div>{info?.wind}km/h</div>
+                            </li>
+                            <li>
+                                <span><img className="kindOfWeather" src={precipitationIcon} alt="샘플 이미지" />강수량</span>
+                                <div>{info?.rain}mm/h</div>
+                            </li>
+                            <li>
+                                <span><img className="kindOfWeather" src={dustIcon} alt="샘플 이미지" />미세먼지</span>
+                                <div>{info?.dust}</div>
+                            </li>
+                            <li>
+                                <span><img className="kindOfWeather" src={temperatureIcon} alt="샘플 이미지" />체감온도</span>
+                                <div>{temp?.feel}&deg;</div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>

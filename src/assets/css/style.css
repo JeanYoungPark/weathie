@@ -27,6 +27,7 @@ body input {
   color: #333;
   background-size: cover;
   background-repeat: no-repeat;
+  font-size: 14px;
 }
 #body.sunny {
   background-image: url("assets/images/weatherBg/sunnyBg.png");
@@ -43,10 +44,10 @@ body input {
 
 .header {
   display: flex;
-  padding: 3vh 4.5vw;
   justify-content: space-between;
   align-items: center;
   font-size: 1.125em;
+  height: 7%;
 }
 .header .menu {
   cursor: pointer;
@@ -64,68 +65,66 @@ body input {
 }
 
 .wrapper {
-  padding: 0 4.5vw;
+  height: 100%;
+  padding: 15px;
 }
-.wrapper#weather {
+.wrapper #weather {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  height: 100%;
+  height: 93%;
+  color: #fff;
+}
+.wrapper .flex-end {
+  justify-content: flex-end;
 }
 .wrapper .cont {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #fff;
 }
-.wrapper .cont .place {
+.wrapper .place {
   display: flex;
   align-items: center;
   font-weight: 300;
   font-size: 2em;
-  margin-bottom: 15px;
   color: #fff;
+  margin-bottom: 5px;
 }
-.wrapper .cont .bookmark {
+.wrapper .bookmark {
   margin-left: 8px;
   cursor: pointer;
 }
-.wrapper .cont .weather {
+.wrapper .weather {
   display: flex;
   align-items: center;
   font-size: 1.2em;
   font-weight: 300;
 }
-.wrapper .cont .weather img {
+.wrapper .weather img {
   margin-right: 8px;
 }
-.wrapper .cont .degree {
+.wrapper .degree {
   font-weight: 300;
   font-size: 5.625em;
-  padding-left: 1vw;
 }
-.wrapper .cont .text {
-  font-size: 1.5em;
-  font-weight: 300;
-}
-.wrapper .cont .degrees {
+.wrapper .degrees {
   display: flex;
-  margin: 1.2vh 0 3.3vh 0;
   font-size: 1.125em;
   font-weight: 300;
+  margin-bottom: 10px;
 }
-.wrapper .cont .degrees span:first-child {
+.wrapper .degrees span:first-child {
   margin-right: 12px;
 }
-.wrapper .cont .info {
+.wrapper .info {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  padding-bottom: 20px;
   box-sizing: border-box;
 }
-.wrapper .cont .info li {
+.wrapper .info li {
   display: flex;
   flex-direction: column;
   width: calc(50% - 4px);
@@ -137,29 +136,23 @@ body input {
   -webkit-backdrop-filter: blur(7.5px);
           backdrop-filter: blur(7.5px);
 }
-.wrapper .cont .info li span {
+.wrapper .info li span {
   display: flex;
   align-items: center;
   font-weight: 300;
   font-size: 0.875em;
 }
-.wrapper .cont .info li span .kindOfWeather {
+.wrapper .info li span .kindOfWeather {
   padding-right: 3px;
 }
-.wrapper .cont .info li div {
+.wrapper .info li div {
   font-weight: 300;
   font-size: 1.375em;
   text-align: right;
   padding-top: 10px;
 }
-.wrapper .cont .info li:nth-child(odd) {
+.wrapper .info li:nth-child(odd) {
   margin-right: 8px;
-}
-.wrapper .character {
-  padding: 3.2vh 0;
-}
-.wrapper .favorite {
-  padding: 2.3vh 1.18vw;
 }
 
 .searchBar {
@@ -169,11 +162,11 @@ body input {
 .searchBar input {
   display: block;
   width: 100%;
-  padding: 1.5vh 1.8vw;
   border-radius: 12px;
   background: #eff4f6;
   font-size: 0.875em;
   font-weight: 500;
+  padding: 10px;
   box-sizing: border-box;
 }
 .searchBar .searchIcon {
@@ -182,17 +175,21 @@ body input {
   width: 20px;
   height: 20px;
   top: calc(50% - 10px);
-  right: 1.8vw;
+  right: 10px;
   background-image: url("../images/searchIcon.png");
   cursor: pointer;
+}
+.searchBar .text {
+  font-size: 1.5em;
+  font-weight: 300;
 }
 
 .favoriteList {
   display: flex;
   width: 100%;
-  padding: 2.5vh 6vw;
   background: skyblue;
-  margin-top: 1.2vh;
+  padding: 25px;
+  margin-top: 15px;
   box-sizing: border-box;
   border-radius: 30px;
   color: #fff;

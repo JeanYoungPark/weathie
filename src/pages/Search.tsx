@@ -243,41 +243,41 @@ export const Search = () => {
             {loading && (
                 <LoadingComponent/>
             )}
-            <div className="header">
-                <img className="back" src={leftArrow} alt="back" onClick={onClick}/>
-                <h1 className="title">날씨</h1>
-                <span> </span>
-            </div>
             <div className="wrapper">
+                <div className="header">
+                    <img className="back" src={leftArrow} alt="back" onClick={onClick}/>
+                    <h1 className="title">날씨</h1>
+                    <span> </span>
+                </div>
                 <p className="searchBar">
                     <input type="text" value={inputVal} onChange={(e) => setInputVal(e.target.value)} placeholder="도시 또는 위치 검색" />
                     <span className="searchIcon" onClick={onSearch}></span>
                 </p>
-            </div>
-            <ul className="wrapper">
-                {(inputVal ? searchWeatherInfo : favWeatherInfo).map((data, i) => (
-                    <li key={i} className={`favoriteList ${data.assetList.bg}`}>
-                        <div className="left">
-                            <h2 className="location">나의 위치</h2>
-                            <span className="name">{data.infoList.place}</span>
-                            <div className="img"><img src={data.assetList.character} alt="character" /></div>
-                        </div>
-                        <div className="right">
-                            <h3 className="degree">{data.tmpList.now}&deg;</h3>
-                            <div>
-                                <p className="kindOfWeather">
-                                    {/* <img src={weatherIcon} alt="weatherIcon" /> */}
-                                    <span>{data.infoList.des}</span>
-                                </p>
-                                <p className="degrees">
-                                    <span>최저 {data.tmpList.min}&deg;</span>
-                                    <span>최고 {data.tmpList.max}&deg;</span>
-                                </p>
+                <ul>
+                    {(inputVal ? searchWeatherInfo : favWeatherInfo).map((data, i) => (
+                        <li key={i} className={`favoriteList ${data.assetList.bg}`}>
+                            <div className="left">
+                                <h2 className="location">나의 위치</h2>
+                                <span className="name">{data.infoList.place}</span>
+                                <div className="img"><img src={data.assetList.character} alt="character" /></div>
                             </div>
-                        </div>
-                    </li>
-                ))}
-            </ul>
+                            <div className="right">
+                                <h3 className="degree">{data.tmpList.now}&deg;</h3>
+                                <div>
+                                    <p className="kindOfWeather">
+                                        {/* <img src={weatherIcon} alt="weatherIcon" /> */}
+                                        <span>{data.infoList.des}</span>
+                                    </p>
+                                    <p className="degrees">
+                                        <span>최저 {data.tmpList.min}&deg;</span>
+                                        <span>최고 {data.tmpList.max}&deg;</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            </div>
         </div>
     )
 }
