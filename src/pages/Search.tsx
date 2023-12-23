@@ -41,12 +41,6 @@ interface FavLocation {
     longitude: number;
 }
 
-interface FavList {
-    place: string;
-    lat: number;
-    lon: number;
-}
-
 type favWeatherIconType = {
     icon: string,
     character: string,
@@ -61,7 +55,6 @@ type favWeatherInfoType = {
 
 export const Search = () => {
     const navigate = useNavigate();
-    const [favList, setFavList] = useState<FavList[]>([]);
     const [favWeatherInfo, setFavWeatherInfo] = useState<favWeatherInfoType[]>([]);
     const [searchWeatherInfo, setSearchWeatherInfo] = useState<favWeatherInfoType[]>([]);
     const [inputVal, setInputVal] = useState<string>('');
@@ -208,15 +201,9 @@ export const Search = () => {
     // 즐겨찾기 리스트 호출
     useEffect(() => {
         const handleFavweather = async() => {
-            const placeInfo = localStorage.getItem("place");
             const locationInfo = localStorage.getItem("location");
             const favLocations = [];
             
-            if(placeInfo !== null){
-                const favInfo = JSON.parse(placeInfo);
-                setFavList(favInfo);
-            }
-    
             if(locationInfo !== null){
                 const favLocationInfo = JSON.parse(locationInfo);
     
