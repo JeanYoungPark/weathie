@@ -204,8 +204,7 @@ export const Weather = () => {
         if(!location?.loaded){
             setLocation({
                 loaded: true,
-                // coordinates: {latitude: locations.coords.latitude, longitude: locations.coords.longitude}
-                coordinates: {latitude: 36.630635658780974, longitude: 128.88715818899664}
+                coordinates: {latitude: locations.coords.latitude, longitude: locations.coords.longitude}
             });
         }
     }, [location]);
