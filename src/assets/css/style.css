@@ -18,12 +18,22 @@ body input {
   border: 0;
 }
 
-#body {
+.fix {
   position: fixed;
+  width: 100%;
+}
+
+.full {
+  height: 100%;
+}
+
+.top {
+  background: #fff;
+}
+
+#body {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  height: 100%;
   color: #333;
   background-size: cover;
   background-repeat: no-repeat;
@@ -48,6 +58,7 @@ body input {
   align-items: center;
   font-size: 1.125em;
   height: 7%;
+  padding: 15px;
 }
 .header .menu {
   cursor: pointer;
@@ -65,10 +76,9 @@ body input {
 }
 
 .wrapper {
-  height: 100%;
   padding: 15px;
 }
-.wrapper #weather {
+.wrapper#weather {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -78,6 +88,10 @@ body input {
 }
 .wrapper .flex-end {
   justify-content: flex-end;
+}
+.wrapper .top {
+  width: calc(100% - 30px);
+  background-color: #fff;
 }
 .wrapper .cont {
   display: flex;
@@ -157,9 +171,13 @@ body input {
 
 .searchBar {
   width: 100%;
-  position: relative;
+  padding-bottom: 20px;
 }
-.searchBar input {
+.searchBar p {
+  position: relative;
+  padding: 0 15px;
+}
+.searchBar p input {
   display: block;
   width: 100%;
   border-radius: 12px;
@@ -169,22 +187,25 @@ body input {
   padding: 10px;
   box-sizing: border-box;
 }
-.searchBar .searchIcon {
+.searchBar p .searchIcon {
   display: block;
   position: absolute;
   width: 20px;
   height: 20px;
   top: calc(50% - 10px);
-  right: 10px;
+  right: 30px;
   background-image: url("../images/searchIcon.png");
   cursor: pointer;
 }
-.searchBar .text {
+.searchBar p .text {
   font-size: 1.5em;
   font-weight: 300;
 }
 
-.favoriteList {
+.favoriteLists {
+  padding-top: 100px;
+}
+.favoriteLists .favoriteList {
   display: flex;
   width: 100%;
   background: skyblue;
@@ -196,59 +217,61 @@ body input {
   background-size: cover;
   background-repeat: no-repeat;
 }
-.favoriteList > div {
+.favoriteLists .favoriteList > div {
   display: flex;
   flex-direction: column;
   width: 50%;
 }
-.favoriteList.sunny {
+.favoriteLists .favoriteList.sunny {
   background-image: url("assets/images/weatherBg/sunnyCardBg.png");
 }
-.favoriteList.cloudy {
+.favoriteLists .favoriteList.cloudy {
   background-image: url("assets/images/weatherBg/cloudyCardBg.png");
 }
-.favoriteList.rainy {
+.favoriteLists .favoriteList.rainy {
   background-image: url("assets/images/weatherBg/rainyCardBg.png");
 }
-.favoriteList.snowy {
+.favoriteLists .favoriteList.snowy {
   background-image: url("assets/images/weatherBg/snowyCardBg.png");
 }
-.favoriteList .left .location {
+.favoriteLists .favoriteList .left .location {
   font-size: 1.5em;
   font-weight: 500;
   margin-bottom: 5px;
 }
-.favoriteList .left .name {
+.favoriteLists .favoriteList .left .name {
   font-size: 0.875em;
   font-weight: 300;
   margin-bottom: 30px;
 }
-.favoriteList .left .img {
+.favoriteLists .favoriteList .left .img {
   width: 30%;
 }
-.favoriteList .left .img img {
+.favoriteLists .favoriteList .left .img img {
   width: 100%;
 }
-.favoriteList .right {
+.favoriteLists .favoriteList .right {
   align-items: flex-end;
   justify-content: space-between;
 }
-.favoriteList .right .degree {
+.favoriteLists .favoriteList .right .degree {
   font-size: 3.25em;
 }
-.favoriteList .right .kindOfWeather {
-  text-align: right;
+.favoriteLists .favoriteList .right .kindOfWeather {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   font-size: 0.875em;
   font-weight: 300;
   margin-bottom: 10px;
 }
-.favoriteList .right .kindOfWeather span {
+.favoriteLists .favoriteList .right .kindOfWeather span {
   padding-left: 3px;
 }
-.favoriteList .right .degrees {
+.favoriteLists .favoriteList .right .degrees {
   font-size: 0.875em;
   font-weight: 300;
 }
-.favoriteList .right .degrees span {
+.favoriteLists .favoriteList .right .degrees span {
   padding-left: 5px;
 }
