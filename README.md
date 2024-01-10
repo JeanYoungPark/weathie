@@ -42,4 +42,9 @@ npm start
 회원가입이 없는데 즐겨찾기를 만들었다니.. 우리는 `localStorage`에 배열로 즐겨찾기 기능을 대신하기로 하였다.<br/>
 localStorage를 사용해 볼 일이 없었는데 이렇게 기회가 오다니 좋은기회였다.<br/><br/>
 
-조금 더 깊게 알아보고 싶은 부분은 나의 위치를 호출하는 로직이다. (벨로그 주소 추가)
+그 외에 나의 위치를 호출하는 로직은 애초에 사용해본적이 없어서 좀 더 깊게 알아보고 싶어서 블로그로 정리해보았다.<br/>
+[Geolocation이란? [ 바로가기 ]](https://velog.io/@jjing9/%EC%82%AC%EC%9A%A9%EC%9E%90-%EC%9C%84%EC%B9%98-%EC%B0%BE%EA%B8%B0-Geolocation)
+
+그 중 기본적으로 기억하고 있어야할만한 내용은 아래의 내용인 것 같다.<br/>
+- javascript 내장함수인 navigator에 포함되어있는 api
+- Geolocation API는 브라우저가 지원해야하는 표준 API라서 대부분의 브라우저에서 사용할 수 있다.
